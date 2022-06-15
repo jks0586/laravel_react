@@ -1,0 +1,30 @@
+:root {
+    --letscms-admin-left: #111111;
+    --letscms-admin-right: #151515;
+    --letscms-text-color: #ffffff;
+}
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#admin {
+    height: inherit;
+}
+#wrapper {
+    height: inherit;
+}
+#sidebar-left {
+    background: var(--letscms-admin-left);
+    color: var(--letscms-text-color);
+}
+
+#sidebar-right {
+    background: var(--letscms-admin-right);
+    color: var(--letscms-text-color);
+}
+
+.nav-link {
+    color: var(--letscms-text-color) !important;
+}
