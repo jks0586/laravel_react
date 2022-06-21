@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 const Sidebar = props => {
-    console.log(props)
+    // console.log(props)
     // return props.location.pathname != '/admin/login'?(
 
     return (
@@ -14,12 +14,10 @@ const Sidebar = props => {
             <Container fluid>
                 <Nav className='flex-column'>
                     <Nav.Item>
-                        <Nav.Link href='#action1'> dddddddd
-                            Home hgjgkjd dhkjdhdkjdh hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-                        </Nav.Link>
+                        <Nav.Link href='/admin/dahboard'>Dashbaord</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link href='#action2'>Link hjgjhggjg</Nav.Link>
+                        <Nav.Link href='/admin/categories'>Categories</Nav.Link>
                     </Nav.Item>
 
                     <NavDropdown title='Dropdown' id='collasible-nav-dropdown'>
@@ -34,11 +32,11 @@ const Sidebar = props => {
                         </NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item href='#action/3.4'>
-                            Separated link
+                            Separated link ddddddd
                         </NavDropdown.Item>
                     </NavDropdown>
                     <Nav.Item>
-                        <Nav.Link href='#action3'>Link jlkjlkjlkjlkjlk</Nav.Link>
+                        <Nav.Link href='#action3'>Link dddddddddddddd</Nav.Link>
                     </Nav.Item>
                 </Nav>
             </Container>

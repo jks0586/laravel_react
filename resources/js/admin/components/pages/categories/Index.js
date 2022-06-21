@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import Breadcrumb from '../../partials/Breadcrumb'
-import {
-    listCategories,
-    setCategoryDefaults
-} from '../../../store/actions/CategoryActions'
+// import {
+//     listCategories,
+//     setCategoryDefaults
+// } from '../../../store/actions/CategoryActions'
+import {Card} from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 class CategoryList extends React.Component {
     constructor (props) {
@@ -12,16 +13,18 @@ class CategoryList extends React.Component {
     }
 
     componentDidMount () {
-        this.props.setCategoryDefaults(),
-        this.props.listCategories(1)
+        // this.props.setCategoryDefaults(),
+        // this.props.listCategories(1)
     }
 
     render () {
         return (
             <div className='content-wrapper'>
+                <Card>
+                {/* <Card.Header>Featured</Card.Header> */}
                 <section className='content-header'>
                     <h1>Categories</h1>
-                    <Breadcrumb />
+                    {/* <Breadcrumb /> */}
                 </section>
 
                 <section className='content'>
@@ -43,22 +46,23 @@ class CategoryList extends React.Component {
                         </div>
                     </div>
                 </section>
+                </Card>
             </div>
         )
     }
 }
 
-// export default CategoryList
+export default CategoryList
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        categories: state.category
-    };
-};
-const mapDispatchToProps = (dispatch) => {
-    return {
-        listCategories: (page) => dispatch(listCategories(page)),
-        setCategoryDefaults: () => dispatch(setCategoryDefaults())
-    }
-};
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);
+// const mapStateToProps = (state, ownProps) => {
+//     return {
+//         categories: state.category
+//     };
+// };
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         listCategories: (page) => dispatch(listCategories(page)),
+//         setCategoryDefaults: () => dispatch(setCategoryDefaults())
+//     }
+// };
+// export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);

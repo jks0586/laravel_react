@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 
             $table->tinyInteger('is_admin')->default(0);
-            $table->string('api_token', 80)->unique()->nullable()->default(null);
+            $table->string('api_token', 255)->unique()->nullable()->default(null);
 
 
         });

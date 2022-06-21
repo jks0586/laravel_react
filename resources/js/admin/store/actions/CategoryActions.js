@@ -63,7 +63,7 @@ function addCategory (title, cb) {
         dispatch({
             type: CREATE_CATEGORIES
         })
-alert(title);
+// alert(title);
         Category.add(title).then(response => {
             dispatch({
                 type: CREATE_CATEGORIES_SUCCESS,

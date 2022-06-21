@@ -22,7 +22,7 @@ class Routes extends React.Component
             <Router>
                 <Switch>
                     <Route exact path='/admin/login' component={Login} />
-                    <AuthenticatedRoute exact path='/' component={Dashboard} />
+                    <AuthenticatedRoute exact path='/admin/dashboard' component={Dashboard} />
                     <AuthenticatedRoute exact path='/admin/categories' component={ListCategories} />
                     <AuthenticatedRoute path='/admin/categories/add' component={AddCategories} />
                     <AuthenticatedRoute path='/admin/categories/edit/:id' component={EditCategories} />

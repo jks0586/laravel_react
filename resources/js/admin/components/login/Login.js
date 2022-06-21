@@ -1,9 +1,10 @@
 import React from 'react'
 import { withRouter } from 'react-router'
 import Auth from '../../apis/Auth'
-
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
 class Login extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props)
         document.body.classList.remove('skin-green')
         document.body.classList.add('login-page')
@@ -20,18 +21,18 @@ class Login extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    handleEmail (e) {
+    handleEmail(e) {
         this.setState({
             email: e.target.value
         })
     }
-    handlePassword (e) {
+    handlePassword(e) {
         this.setState({
             password: e.target.value
         })
     }
 
-    handleSubmit (e) {
+    handleSubmit(e) {
         e.preventDefault()
         this.setState({
             error_message: null,
@@ -52,10 +53,10 @@ class Login extends React.Component {
                 // console.log(response.data.data.user);
                 if (response.data.data.user.is_admin == 1) {
                     for (var i in response.data.data.user) {
-                        alert('aaaaa');
+                        // alert('aaaaa');
                         localStorage.setItem('user.' + i, response.data.data.user[i])
                         setTimeout(() => {
-                            this.props.history.push('/')
+                            this.props.history.push('/admin/dashboard')
                         }, 500)
                     }
                 } else {
@@ -67,7 +68,7 @@ class Login extends React.Component {
             },
             (err) => {
 
-                console.log(err.response,'aaaaayyyyy');
+                // console.log(err.response, 'aaaaayyyyy');
 
                 this.setState({
                     error_message: err.response.data.data.message,
@@ -77,88 +78,93 @@ class Login extends React.Component {
         );
     }
 
-    render () {
+    render() {
         return (
             <div className='container'>
-                <div className='login-box'>
-                    <div className='login-logo'>
-                        <b>Blog</b>RL
-                    </div>
-                    <div className='login-box-body'>
-                        <p className='login-box-msg'>
-                            Sign in to start your session
-                        </p>
-                        {this.state.error_message ? (
-                            <div className='alert alert-danger'>
-                                {this.state.error_message}
+                <Card>
+                    <Card.Header as="h5">Featured</Card.Header>
+                    <Card.Body>
+                        <Card.Title>Special title treatment</Card.Title>
+                        <div className='login-box'>
+                            <div className='login-logo'>
+                                <b>Blog</b>RL
                             </div>
-                        ) : null}
+                            <div className='login-box-body'>
+                                <p className='login-box-msg'>
+                                    Sign in to start your session
+                                </p>
+                                {this.state.error_message ? (
+                                    <div className='alert alert-danger'>
+                                        {this.state.error_message}
+                                    </div>
+                                ) : null}
 
-                        <form
-                            action='#'
-                            method='post'
-                            onSubmit={this.handleSubmit}
-                        >
-                            <div
-                                className={`form-group has-feedback ${
-                                    this.state.errors && this.state.errors.email
-                                        ? 'has-error'
-                                        : ''
-                                }`}
-                            >
-                                <input
-                                    type='email'
-                                    name='email'
-                                    className='form-control'
-                                    placeholder='Email'
-                                    onChange={this.handleEmail}
-                                    value={this.state.email}
-                                />
-                                <span className='glyphicon glyphicon-envelope form-control-feedback'></span>
-                                {this.state.errors &&
-                                this.state.errors.email ? (
-                                    <div className='help-block'>
-                                        {this.state.errors.email[0]}
-                                    </div>
-                                ) : null}
-                            </div>
-                            <div
-                                className={`form-group has-feedback ${
-                                    this.state.errors &&
-                                    this.state.errors.password
-                                        ? 'has-error'
-                                        : ''
-                                }`}
-                            >
-                                <input
-                                    type='password'
-                                    name='password'
-                                    className='form-control'
-                                    placeholder='Password'
-                                    onChange={this.handlePassword}
-                                    value={this.state.password}
-                                />
-                                <span className='glyphicon glyphicon-lock form-control-feedback'></span>
-                                {this.state.errors &&
-                                this.state.errors.password ? (
-                                    <div className='help-block'>
-                                        {this.state.errors.password[0]}
-                                    </div>
-                                ) : null}
-                            </div>
-                            <div className='row'>
-                                <div className='col-xs-4'>
-                                    <button
-                                        type='submit'
-                                        className='btn btn-primary btn-block btn-flat'
+                                <form
+                                    action='#'
+                                    method='post'
+                                    onSubmit={this.handleSubmit}
+                                >
+                                    <div
+                                        className={`form-group has-feedback ${this.state.errors && this.state.errors.email
+                                                ? 'has-error'
+                                                : ''
+                                            }`}
                                     >
-                                        Sign In
-                                    </button>
-                                </div>
+                                        <input
+                                            type='email'
+                                            name='email'
+                                            className='form-control'
+                                            placeholder='Email'
+                                            onChange={this.handleEmail}
+                                            value={this.state.email}
+                                        />
+                                        <span className='glyphicon glyphicon-envelope form-control-feedback'></span>
+                                        {this.state.errors &&
+                                            this.state.errors.email ? (
+                                            <div className='help-block'>
+                                                {this.state.errors.email[0]}
+                                            </div>
+                                        ) : null}
+                                    </div>
+                                    <div
+                                        className={`form-group has-feedback ${this.state.errors &&
+                                                this.state.errors.password
+                                                ? 'has-error'
+                                                : ''
+                                            }`}
+                                    >
+                                        <input
+                                            type='password'
+                                            name='password'
+                                            className='form-control'
+                                            placeholder='Password'
+                                            onChange={this.handlePassword}
+                                            value={this.state.password}
+                                        />
+                                        <span className='glyphicon glyphicon-lock form-control-feedback'></span>
+                                        {this.state.errors &&
+                                            this.state.errors.password ? (
+                                            <div className='help-block'>
+                                                {this.state.errors.password[0]}
+                                            </div>
+                                        ) : null}
+                                    </div>
+                                    <div className='row'>
+                                        <div className='col-xs-4'>
+                                            <button
+                                                type='submit'
+                                                className='btn btn-primary btn-block btn-flat'
+                                            >
+                                                Sign In
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
-                    </div>
-                </div>
+                        </div>
+                    </Card.Body>
+                </Card>
+
             </div>
         )
     }
