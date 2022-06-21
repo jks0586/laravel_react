@@ -10,6 +10,6 @@
 </head>
 <body>
     <div id="webiste"></div>
-    <script src="{{ asset('js/website.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('website/js/website.js') }}" type="text/javascript"></script>
 </body>
 </html>

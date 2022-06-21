@@ -13,7 +13,7 @@ export default class App extends React.Component {
                         <Sidebar />
                     </div>
                     <div className="col-md-10" id="sidebar-right">
-                        <h1>welcome React Js</h1>
+                        <h1>welcome React Js ddddddd dddddddd</h1>
                     </div>
                 </div>
             </Router>

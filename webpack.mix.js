@@ -17,7 +17,5 @@ require('dotenv').config();
 // .react('resources/js/website.js', 'public/js')
 //     .sass('resources/sass/app.scss', 'public/css');
 
-mix.js('resources/js/admin.js', 'public/admin/js')
-.js('resources/js/website.js', 'public/website/js')
-.react()
-.sass('resources/sass/app.scss', 'public/css');
+ mix.js('resources/js/admin.js', 'public/admin/js').js('resources/js/website.js', 'public/website/js').react().sass('resources/sass/app.scss', 'public/css');
+// mix.js('resources/js/admin.js', 'public/admin/js').react().sass('resources/sass/app.scss', 'public/css');

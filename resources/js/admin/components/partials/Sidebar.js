@@ -14,8 +14,8 @@ const Sidebar = props => {
             <Container fluid>
                 <Nav className='flex-column'>
                     <Nav.Item>
-                        <Nav.Link href='#action1'>
-                            Home hgjgkjd dhkjdhdkjdh
+                        <Nav.Link href='#action1'> dddddddd
+                            Home hgjgkjd dhkjdhdkjdh hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>

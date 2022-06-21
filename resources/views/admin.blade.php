@@ -9,6 +9,6 @@
 </head>
 <body class="enlarged">
     <div id="admin"></div>
-    <script src="{{ asset('js/admin.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('admin/js/admin.js') }}" type="text/javascript"></script>
 </body>
 </html>
