@@ -2,6 +2,7 @@
     --letscms-admin-left: #111111;
     --letscms-admin-right: #151515;
     --letscms-text-color: #ffffff;
+    --letscms-bg-card-color:#151515;
 }
 html,
 body {
@@ -23,6 +24,10 @@ body {
 #sidebar-right {
     background: var(--letscms-admin-right);
     color: var(--letscms-text-color);
+}
+
+#sidebar-right .card {
+    background-color: var(--letscms-bg-card-color);   
 }
 
 .nav-link {

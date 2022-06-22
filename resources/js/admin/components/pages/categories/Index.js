@@ -5,8 +5,9 @@ import Breadcrumb from '../../partials/Breadcrumb'
 //     listCategories,
 //     setCategoryDefaults
 // } from '../../../store/actions/CategoryActions'
-import {Card} from 'react-bootstrap/Card';
+import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
+
 class CategoryList extends React.Component {
     constructor (props) {
         super(props)
@@ -21,6 +22,7 @@ class CategoryList extends React.Component {
         return (
             <div className='content-wrapper'>
                 <Card>
+                    <Card.Header>Categories List</Card.Header>
                 {/* <Card.Header>Featured</Card.Header> */}
                 <section className='content-header'>
                     <h1>Categories</h1>

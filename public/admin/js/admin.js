@@ -8906,49 +8906,6 @@ var Auth = {
 
 /***/ }),
 
-/***/ "./resources/js/admin/apis/Category.js":
-/*!*********************************************!*\
-  !*** ./resources/js/admin/apis/Category.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-var Category = {
-  list: function list() {
-    var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-    return axios__WEBPACK_IMPORTED_MODULE_0___default().get('categories?page=' + page);
-  },
-  add: function add(title) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/categories', {
-      title: title
-    });
-  },
-  showOne: function showOne(id) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/categories/' + id);
-  },
-  edit: function edit(title, id) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default().put('/categories/' + id, {
-      title: title
-    });
-  },
-  remove: function remove(id) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('/categories/' + id);
-  },
-  listAll: function listAll() {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/categories?all');
-  }
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Category);
-
-/***/ }),
-
 /***/ "./resources/js/admin/components/login/Login.js":
 /*!******************************************************!*\
   !*** ./resources/js/admin/components/login/Login.js ***!
@@ -9251,9 +9208,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _partials_Breadcrumb__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../partials/Breadcrumb */ "./resources/js/admin/components/partials/Breadcrumb.js");
-/* harmony import */ var _store_actions_CategoryActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../store/actions/CategoryActions */ "./resources/js/admin/store/actions/CategoryActions.js");
-/* harmony import */ var _CategoryForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./CategoryForm */ "./resources/js/admin/components/pages/categories/CategoryForm.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-bootstrap/Card */ "./node_modules/react-bootstrap/esm/Card.js");
+/* harmony import */ var _CategoryForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CategoryForm */ "./resources/js/admin/components/pages/categories/CategoryForm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9303,14 +9260,12 @@ var CategoryAdd = /*#__PURE__*/function (_React$Component) {
 
   _createClass(CategoryAdd, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.setCategoryDefaults();
+    value: function componentDidMount() {// this.props.setCategoryDefaults();
     }
   }, {
     key: "handleChange",
     value: function handleChange(e) {
       e.preventDefault();
-      alert('aaaa');
       this.props.handleCategoryTitle(e.target.value);
     }
   }, {
@@ -9318,65 +9273,70 @@ var CategoryAdd = /*#__PURE__*/function (_React$Component) {
     value: function handleSubmit(e) {
       e.preventDefault(); // console.log(this);
 
-      var self = this;
-      console.log(this.props.categories);
-      this.props.addCategory(this.props.categories.category.title, function () {
-        self.props.handleTitleChange('');
-        setTimeout(function () {
-          self.props.history.psuh('/admin/categories');
-        }, 2000);
-      });
+      var self = this; // console.log(this.props.categories);
+      // this.props.addCategory(
+      //     // this.props.categories.category.title,
+      //     function () {
+      //         self.props.handleTitleChange('');
+      //         setTimeout(() => {
+      //             self.props.history.psuh('/admin/categories');
+      //         }, 2000);
+      //     }
+      // )
     }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-        className: "content-wrapper",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("section", {
-          className: "content-header",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h1", {
-            children: "Add category"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_partials_Breadcrumb__WEBPACK_IMPORTED_MODULE_2__["default"], {})]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("section", {
-          className: "content",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-            className: "row",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-              className: "col-md-12",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-                className: "box box-warning",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-                  className: "box-header with-border",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h3", {
-                    className: "box-title",
-                    children: "Add category"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
-                    to: "/admin/categories",
-                    className: "btn btn-warning btn-sm",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
-                      className: "fa fa-arrow-left"
-                    }), ' ', "Return back"]
-                  })]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("form", {
-                  role: "form",
-                  method: "post",
-                  onSubmit: this.handleSubmit,
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-                    className: "box-body",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_CategoryForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
-                      categories: this.props.categories
-                    })
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-                    className: "box-footer",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
-                      type: "submit",
-                      className: "btn btn-success",
-                      children: "Submit"
-                    })
-                  })]
-                })]
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_5__["default"].Header, {
+          children: "Create A category"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_5__["default"].Body, {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "content-wrapper",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("section", {
+              className: "content-header",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
+                children: "Add category"
               })
-            })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("section", {
+              className: "content",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                className: "row",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "col-md-12",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                    className: "box box-warning",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                      className: "box-header with-border",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h3", {
+                        className: "box-title",
+                        children: "Add category"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
+                        to: "/admin/categories",
+                        className: "btn btn-warning btn-sm",
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+                          className: "fa fa-arrow-left"
+                        }), ' ', "Return back"]
+                      })]
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
+                      role: "form",
+                      method: "post",
+                      onSubmit: this.handleSubmit,
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                        className: "box-body"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                        className: "box-footer",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                          type: "submit",
+                          className: "btn btn-success",
+                          children: "Submit"
+                        })
+                      })]
+                    })]
+                  })
+                })
+              })
+            })]
           })
         })]
       });
@@ -9386,27 +9346,19 @@ var CategoryAdd = /*#__PURE__*/function (_React$Component) {
   return CategoryAdd;
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
-var mapStateToProps = function mapStateToProps(state, ownProps) {
-  return {
-    categories: state.category
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
-  return {
-    handleTitleChange: function handleTitleChange(title) {
-      return dispatch((0,_store_actions_CategoryActions__WEBPACK_IMPORTED_MODULE_3__.handleCategoryTitle)(title));
-    },
-    addCategory: function addCategory(title, cb) {
-      return dispatch((0,_store_actions_CategoryActions__WEBPACK_IMPORTED_MODULE_3__.addCategory)(title, cb));
-    },
-    setCategoryDefaults: function setCategoryDefaults() {
-      return dispatch((0,_store_actions_CategoryActions__WEBPACK_IMPORTED_MODULE_3__.setCategoryDefaults)());
-    }
-  };
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(CategoryAdd));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CategoryAdd); // const mapStateToProps = (state, ownProps) => {
+//     return {
+//         categories: state.category
+//     }
+// }
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//     return {
+//         handleTitleChange: title => dispatch(handleCategoryTitle(title)),
+//         addCategory: (title, cb) => dispatch(addCategory(title, cb)),
+//         setCategoryDefaults: () => dispatch(setCategoryDefaults())
+//     }
+// }
+// export default connect(mapStateToProps, mapDispatchToProps)(CategoryAdd)
 
 /***/ }),
 
@@ -9638,8 +9590,10 @@ var CategoryList = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "content-wrapper",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_4__.Card, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("section", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_4__["default"].Header, {
+            children: "Categories List"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("section", {
             className: "content-header",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
               children: "Categories"
@@ -10047,136 +10001,6 @@ var Sidebar = function Sidebar(props) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_router__WEBPACK_IMPORTED_MODULE_6__.withRouter)(Sidebar));
-
-/***/ }),
-
-/***/ "./resources/js/admin/store/actionTypes/CategoryTypes.js":
-/*!***************************************************************!*\
-  !*** ./resources/js/admin/store/actionTypes/CategoryTypes.js ***!
-  \***************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CREATE_CATEGORIES": () => (/* binding */ CREATE_CATEGORIES),
-/* harmony export */   "CREATE_CATEGORIES_FAILURE": () => (/* binding */ CREATE_CATEGORIES_FAILURE),
-/* harmony export */   "CREATE_CATEGORIES_SUCCESS": () => (/* binding */ CREATE_CATEGORIES_SUCCESS),
-/* harmony export */   "DELETE_CATEGORIES": () => (/* binding */ DELETE_CATEGORIES),
-/* harmony export */   "DELETE_CATEGORIES_FAILURE": () => (/* binding */ DELETE_CATEGORIES_FAILURE),
-/* harmony export */   "DELETE_CATEGORIES_SUCCESS": () => (/* binding */ DELETE_CATEGORIES_SUCCESS),
-/* harmony export */   "EDIT_CATEGORIES": () => (/* binding */ EDIT_CATEGORIES),
-/* harmony export */   "EDIT_CATEGORIES_FAILURE": () => (/* binding */ EDIT_CATEGORIES_FAILURE),
-/* harmony export */   "EDIT_CATEGORIES_SUCCESS": () => (/* binding */ EDIT_CATEGORIES_SUCCESS),
-/* harmony export */   "HANDLE_CATEGORY_TITLE": () => (/* binding */ HANDLE_CATEGORY_TITLE),
-/* harmony export */   "LIST_ALL_CATEGORIES": () => (/* binding */ LIST_ALL_CATEGORIES),
-/* harmony export */   "LIST_CATEGORIES": () => (/* binding */ LIST_CATEGORIES),
-/* harmony export */   "LIST_CATEGORIES_FAILURE": () => (/* binding */ LIST_CATEGORIES_FAILURE),
-/* harmony export */   "LIST_CATEGORIES_SUCCESS": () => (/* binding */ LIST_CATEGORIES_SUCCESS),
-/* harmony export */   "SET_CATEGORY_DEFAULTS": () => (/* binding */ SET_CATEGORY_DEFAULTS),
-/* harmony export */   "SHOW_CATEGORY": () => (/* binding */ SHOW_CATEGORY),
-/* harmony export */   "SHOW_CATEGORY_FAILURE": () => (/* binding */ SHOW_CATEGORY_FAILURE),
-/* harmony export */   "SHOW_CATEGORY_SUCCESS": () => (/* binding */ SHOW_CATEGORY_SUCCESS)
-/* harmony export */ });
-var LIST_CATEGORIES = 'LIST_CATEGORIES';
-var LIST_CATEGORIES_SUCCESS = 'LIST_CATEGORIES_SUCCESS';
-var LIST_CATEGORIES_FAILURE = 'LIST_CATEGORIES_FAILURE';
-var CREATE_CATEGORIES = 'CREATE_CATEGORIES';
-var CREATE_CATEGORIES_SUCCESS = 'CREATE_CATEGORIES_SUCCESS';
-var CREATE_CATEGORIES_FAILURE = 'CREATE_CATEGORIES_FAILURE';
-var EDIT_CATEGORIES = 'EDIT_CATEGORIES';
-var EDIT_CATEGORIES_SUCCESS = 'EDIT_CATEGORIES_SUCCESS';
-var EDIT_CATEGORIES_FAILURE = 'EDIT_CATEGORIES_FAILURE';
-var DELETE_CATEGORIES = 'DELETE_CATEGORIES';
-var DELETE_CATEGORIES_SUCCESS = 'DELETE_CATEGORIES_SUCCESS';
-var DELETE_CATEGORIES_FAILURE = 'DELETE_CATEGORIES_FAILURE';
-var SHOW_CATEGORY = 'SHOW_CATEGORY';
-var SHOW_CATEGORY_SUCCESS = 'SHOW_CATEGORY_SUCCESS';
-var SHOW_CATEGORY_FAILURE = 'SHOW_CATEGORY_FAILURE';
-var HANDLE_CATEGORY_TITLE = 'HANDLE_CATEGORY_TITLE';
-var SET_CATEGORY_DEFAULTS = 'SET_CATEGORY_DEFAULTS';
-var LIST_ALL_CATEGORIES = 'LIST_ALL_CATEGORIES';
-
-/***/ }),
-
-/***/ "./resources/js/admin/store/actions/CategoryActions.js":
-/*!*************************************************************!*\
-  !*** ./resources/js/admin/store/actions/CategoryActions.js ***!
-  \*************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "addCategory": () => (/* binding */ addCategory),
-/* harmony export */   "handleCategoryTitle": () => (/* binding */ handleCategoryTitle),
-/* harmony export */   "listCategories": () => (/* binding */ listCategories),
-/* harmony export */   "setCategoryDefaults": () => (/* binding */ setCategoryDefaults)
-/* harmony export */ });
-/* harmony import */ var _actionTypes_CategoryTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actionTypes/CategoryTypes */ "./resources/js/admin/store/actionTypes/CategoryTypes.js");
-/* harmony import */ var _apis_Category__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../apis/Category */ "./resources/js/admin/apis/Category.js");
-
-
-
-function handleCategoryTitle(title) {
-  return function (dispatch, getState) {
-    dispatch({
-      type: _actionTypes_CategoryTypes__WEBPACK_IMPORTED_MODULE_0__.HANDLE_CATEGORY_TITLE,
-      data: title
-    });
-  };
-}
-
-function listCategories() {
-  var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-  return function (dispatch, getState) {
-    dispatch({
-      type: _actionTypes_CategoryTypes__WEBPACK_IMPORTED_MODULE_0__.LIST_CATEGORIES
-    });
-    _apis_Category__WEBPACK_IMPORTED_MODULE_1__["default"].list(page).then(function (response) {
-      dispatch({
-        type: _actionTypes_CategoryTypes__WEBPACK_IMPORTED_MODULE_0__.LIST_CATEGORIES_SUCCESS,
-        data: response.data.data
-      })["catch"](function (error) {
-        dispatch({
-          type: _actionTypes_CategoryTypes__WEBPACK_IMPORTED_MODULE_0__.LIST_CATEGORIES_FAILURE,
-          error: error.response.data
-        });
-      });
-    });
-  };
-}
-
-function setCategoryDefaults() {
-  return function (dispatch, getState) {
-    dispatch({
-      type: _actionTypes_CategoryTypes__WEBPACK_IMPORTED_MODULE_0__.SET_CATEGORY_DEFAULTS
-    });
-  };
-}
-
-function addCategory(title, cb) {
-  return function (dispatch, getState) {
-    dispatch({
-      type: _actionTypes_CategoryTypes__WEBPACK_IMPORTED_MODULE_0__.CREATE_CATEGORIES
-    }); // alert(title);
-
-    _apis_Category__WEBPACK_IMPORTED_MODULE_1__["default"].add(title).then(function (response) {
-      dispatch({
-        type: _actionTypes_CategoryTypes__WEBPACK_IMPORTED_MODULE_0__.CREATE_CATEGORIES_SUCCESS,
-        data: response.data
-      });
-      cb();
-    })["catch"](function (error) {
-      dispatch({
-        type: _actionTypes_CategoryTypes__WEBPACK_IMPORTED_MODULE_0__.CREATE_CATEGORIES_FAILURE,
-        data: error.response.data
-      });
-    });
-  };
-}
-
-
 
 /***/ }),
 
@@ -15361,7 +15185,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ":root {\r\n    --letscms-admin-left: #111111;\r\n    --letscms-admin-right: #151515;\r\n    --letscms-text-color: #ffffff;\r\n}\r\nhtml,\r\nbody {\r\n    height: 100%;\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n#admin {\r\n    height: inherit;\r\n}\r\n#wrapper {\r\n    height: inherit;\r\n}\r\n#sidebar-left {\r\n    background: var(--letscms-admin-left);\r\n    color: var(--letscms-text-color);\r\n}\r\n\r\n#sidebar-right {\r\n    background: var(--letscms-admin-right);\r\n    color: var(--letscms-text-color);\r\n}\r\n\r\n.nav-link {\r\n    color: var(--letscms-text-color) !important;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ":root {\r\n    --letscms-admin-left: #111111;\r\n    --letscms-admin-right: #151515;\r\n    --letscms-text-color: #ffffff;\r\n    --letscms-bg-card-color:#151515;\r\n}\r\nhtml,\r\nbody {\r\n    height: 100%;\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n#admin {\r\n    height: inherit;\r\n}\r\n#wrapper {\r\n    height: inherit;\r\n}\r\n#sidebar-left {\r\n    background: var(--letscms-admin-left);\r\n    color: var(--letscms-text-color);\r\n}\r\n\r\n#sidebar-right {\r\n    background: var(--letscms-admin-right);\r\n    color: var(--letscms-text-color);\r\n}\r\n\r\n#sidebar-right .card {\r\n    background-color: var(--letscms-bg-card-color);   \r\n}\r\n\r\n.nav-link {\r\n    color: var(--letscms-text-color) !important;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

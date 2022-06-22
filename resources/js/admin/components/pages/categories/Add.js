@@ -2,13 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Breadcrumb from '../../partials/Breadcrumb';
-
-import {
-    addCategory,
-    setCategoryDefaults,
-    handleCategoryTitle
-} from '../../../store/actions/CategoryActions';
-
+import Card from "react-bootstrap/Card";
 import CategoryForm from './CategoryForm';
 class CategoryAdd extends React.Component {
     constructor (props) {
@@ -18,12 +12,12 @@ class CategoryAdd extends React.Component {
     }
 
     componentDidMount () {
-        this.props.setCategoryDefaults();
+        // this.props.setCategoryDefaults();
     }
 
     handleChange (e) {
         e.preventDefault();
-        alert('aaaa');
+        
         this.props.handleCategoryTitle(e.target.value);
     }
 
@@ -31,24 +25,27 @@ class CategoryAdd extends React.Component {
         e.preventDefault();
         // console.log(this);
         let self = this;
-        console.log(this.props.categories);
+        // console.log(this.props.categories);
 
-        this.props.addCategory(
-            this.props.categories.category.title,
-            function () {
-                self.props.handleTitleChange('');
-                setTimeout(() => {
-                    self.props.history.psuh('/admin/categories');
-                }, 2000);
-            }
-        )
+        // this.props.addCategory(
+        //     // this.props.categories.category.title,
+        //     function () {
+        //         self.props.handleTitleChange('');
+        //         setTimeout(() => {
+        //             self.props.history.psuh('/admin/categories');
+        //         }, 2000);
+        //     }
+        // )
     }
     render () {
         return (
+            <Card>
+            <Card.Header>Create A category</Card.Header>
+            <Card.Body>
             <div className='content-wrapper'>
                 <section className='content-header'>
                     <h1>Add category</h1>
-                    <Breadcrumb />
+                    {/* <Breadcrumb /> */}
                 </section>
 
                 <section className='content'>
@@ -72,7 +69,7 @@ class CategoryAdd extends React.Component {
                                     onSubmit={this.handleSubmit}
                                 >
                                     <div className='box-body'>
-                                        <CategoryForm categories={this.props.categories} />
+                                        {/* <CategoryForm /> */}
                                     </div>
                                     <div className='box-footer'>
                                         <button
@@ -88,21 +85,25 @@ class CategoryAdd extends React.Component {
                     </div>
                 </section>
             </div>
+            </Card.Body>
+            </Card>
         )
     }
 }
-const mapStateToProps = (state, ownProps) => {
-    return {
-        categories: state.category
-    }
-}
+export default CategoryAdd;
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        handleTitleChange: title => dispatch(handleCategoryTitle(title)),
-        addCategory: (title, cb) => dispatch(addCategory(title, cb)),
-        setCategoryDefaults: () => dispatch(setCategoryDefaults())
-    }
-}
+// const mapStateToProps = (state, ownProps) => {
+//     return {
+//         categories: state.category
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryAdd)
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//     return {
+//         handleTitleChange: title => dispatch(handleCategoryTitle(title)),
+//         addCategory: (title, cb) => dispatch(addCategory(title, cb)),
+//         setCategoryDefaults: () => dispatch(setCategoryDefaults())
+//     }
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(CategoryAdd)
