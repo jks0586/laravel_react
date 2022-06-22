@@ -1,14 +1,15 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Breadcrumb from '../../partials/Breadcrumb';
-import Card from "react-bootstrap/Card";
-import CategoryForm from './CategoryForm';
+import React from 'react'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import Breadcrumb from '../../partials/Breadcrumb'
+import Card from 'react-bootstrap/Card'
+
+import CategoryForm from './CategoryForm'
 class CategoryAdd extends React.Component {
     constructor (props) {
-        super(props);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        super(props)
+        // this.handleChange = this.handleChange.bind(this)
+        // this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     componentDidMount () {
@@ -16,15 +17,14 @@ class CategoryAdd extends React.Component {
     }
 
     handleChange (e) {
-        e.preventDefault();
-        
-        this.props.handleCategoryTitle(e.target.value);
+        e.preventDefault()
+        this.props.handleCategoryTitle(e.target.value)
     }
 
     handleSubmit (e) {
-        e.preventDefault();
+        e.preventDefault()
         // console.log(this);
-        let self = this;
+        let self = this
         // console.log(this.props.categories);
 
         // this.props.addCategory(
@@ -32,7 +32,7 @@ class CategoryAdd extends React.Component {
         //     function () {
         //         self.props.handleTitleChange('');
         //         setTimeout(() => {
-        //             self.props.history.psuh('/admin/categories');
+        //             self.props.history.push('/admin/categories');
         //         }, 2000);
         //     }
         // )
@@ -40,57 +40,15 @@ class CategoryAdd extends React.Component {
     render () {
         return (
             <Card>
-            <Card.Header>Create A category</Card.Header>
-            <Card.Body>
-            <div className='content-wrapper'>
-                <section className='content-header'>
-                    <h1>Add category</h1>
-                    {/* <Breadcrumb /> */}
-                </section>
-
-                <section className='content'>
-                    <div className='row'>
-                        <div className='col-md-12'>
-                            <div className='box box-warning'>
-                                <div className='box-header with-border'>
-                                    <h3 className='box-title'>Add category</h3>
-                                    <Link
-                                        to='/admin/categories'
-                                        className='btn btn-warning btn-sm'
-                                    >
-                                        <i className='fa fa-arrow-left'></i>{' '}
-                                        Return back
-                                    </Link>
-                                </div>
-
-                                <form
-                                    role='form'
-                                    method='post'
-                                    onSubmit={this.handleSubmit}
-                                >
-                                    <div className='box-body'>
-                                        {/* <CategoryForm /> */}
-                                    </div>
-                                    <div className='box-footer'>
-                                        <button
-                                            type='submit'
-                                            className='btn btn-success'
-                                        >
-                                            Submit
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-            </Card.Body>
+                <Card.Header>Create Category</Card.Header>
+                <Card.Body>
+                    <CategoryForm />
+                </Card.Body>
             </Card>
         )
     }
 }
-export default CategoryAdd;
+export default CategoryAdd
 
 // const mapStateToProps = (state, ownProps) => {
 //     return {

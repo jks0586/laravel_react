@@ -24,6 +24,8 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^34.1.0",
+        "@ckeditor/ckeditor5-react": "^5.0.2",
         "dotenv": "^16.0.0",
         "jquery": "^3.6.0",
         "popper.js": "^1.16.1",
@@ -36,5 +38,5 @@
     },
     "overrides": {
         "autoprefixer": "10.4.5"
-    }    
+    }
 }
