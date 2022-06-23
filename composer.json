@@ -12,7 +12,9 @@
         "laravel/passport": "^10.3",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.4"
+        "laravel/ui": "^3.4",
+        "mll-lab/laravel-graphql-playground": "^2.6",
+        "rebing/graphql-laravel": "^8.3"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
