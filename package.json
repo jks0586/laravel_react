@@ -30,6 +30,8 @@
         "jquery": "^3.6.0",
         "popper.js": "^1.16.1",
         "react-bootstrap": "^2.4.0",
+        "react-loads": "^9.2.6",
+        "react-lodash": "^0.1.2",
         "react-redux": "^7.2.7",
         "react-router": "^5.2.0",
         "react-router-dom": "^5.2.0",

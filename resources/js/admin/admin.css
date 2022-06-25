@@ -63,3 +63,10 @@ body {
 .nav-link {
     color: var(--letscms-text-color) !important;
 }
+
+tbody, td, tfoot, th, thead, tr{
+    border-color: var(--letscms-right-border-color) !important;
+}
+.table{
+    color: var(--letscms-text-color);
+}

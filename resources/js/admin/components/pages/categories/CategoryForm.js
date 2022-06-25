@@ -4,9 +4,10 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Alert from 'react-bootstrap/Alert'
-
+import _ from "lodash";
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import CategoryService from "./../../../apis/Category";
 class CategoryForm extends React.Component {
     constructor (props) {
         super(props)
@@ -32,7 +33,8 @@ class CategoryForm extends React.Component {
 
     handleTitleChange (e) {
         this.setState({ title: e.target.value })
-        this.setState({formErrors:{}});
+        delete this.state.formErrors['title'];
+        // this.setState({formErrors:{}});
         // console.log(this.state);
         e.preventDefault()
     }
@@ -41,7 +43,8 @@ class CategoryForm extends React.Component {
         // console.log(e.target.files[0]);
         this.setState({ image: e.target.files[0] })
         this.previewFile(e.target.files[0])
-        this.setState({formErrors:{}});
+        delete this.state.formErrors['image'];
+        // this.setState({formErrors:{}});
         setTimeout(function () {
             let imgset = document.getElementById('imagePreview');
             // this.setState({title : imgset.getAttribute('src')})
@@ -51,34 +54,36 @@ class CategoryForm extends React.Component {
     }
     handleSlugChange (e) {
         this.setState({ slug: e.target.value })
-        this.setState({formErrors:{}});
+
+        delete this.state.formErrors['slug'];
+
+        // this.setState({formErrors:{}});
         e.preventDefault()
     }
     handleDescriptionChange (e) {
         this.setState({ description: e.target.value })
-        this.setState({formErrors:{}});
+
+        delete this.state.formErrors['description'];
+
+        // this.setState({formErrors:{}});
         e.preventDefault()
     }
     previewFile (file) {
         const reader = new FileReader()
-
-        reader.addEventListener(
-            'load',
-            function () {
-                // preview.src = reader.result;
-                // console.log(reader.result);
-                let imgset = document.getElementById('imagePreview')
-                imgset.setAttribute('src', reader.result)
-                imgset.setAttribute('width', 50)
-                imgset.setAttribute('height', 50)
-                // 
-            },
-            false
-        )
-
         if (file) {
             reader.readAsDataURL(file)
         }
+       
+        reader.onloadend = function (e) {
+            let imgset = document.getElementById('imagePreview')
+            imgset.setAttribute('src', reader.result)
+            imgset.setAttribute('width', 50)
+            imgset.setAttribute('height', 50)
+            // 
+            this.setState({ imagePreview: reader.result })
+          }.bind(this);
+                  
+        
     }
     categoryValidate (e) {
         // console.log('aaaaaayyyyyyy', this.state)
@@ -124,26 +129,52 @@ class CategoryForm extends React.Component {
 
         this.setState({ formErrors: fieldValidationErrors })
 
-        console.log(this.state.formErrors)
+        // console.log(this.state.formErrors.length)
 
-        if (this.state.formErrors) {
-            return false
+        if (_.isEmpty(this.state.formErrors)) {
+            
+            return true;
         } else {
-            return true
+            
+            return false;
         }
 
         // console.log(formErrors);
     }
     handleSubmit (e) {
         e.preventDefault()
-        this.setState({formErrors:{}});
+        // this.setState({formErrors:{}});
         // console.log("yyyyyy");
         if (this.categoryValidate(e)) {
             const postdata = {}
+            
+            // console.log(this.state);
+
             Object.keys(this.state).forEach((value, index) => {
-                postdata.index = value
+                postdata[value] = this.state[value]
+                // console.log(value,this.state.value);
             })
-            console.log(postdata);
+            // console.log(postdata);
+
+            let catpost=`
+            {
+                mutation{
+                createCategory(
+                  title:postdata.title,
+                  description:postdata.description,
+                  image:postdata.image,
+                  slug:postdata.slug,
+                ){id,title,image,description,slug}
+              }}
+              `;
+
+            //   console.log(catpost);
+            CategoryService.add(catpost).then((response)=>{
+                console.log(response);
+            }).catch((error)=>{
+                console.log(error);
+            })
+            // 
         }
 
         // console.log(postdata);

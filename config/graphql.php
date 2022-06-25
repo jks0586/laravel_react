@@ -76,19 +76,31 @@ return [
         'default' => [
             'query' => [
                 // ExampleQuery::class,
+                // user
                 'user' => \App\GraphQL\Queries\User\UserQuery::class,
                 'users' => \App\GraphQL\Queries\User\UsersQuery::class,
+
+                //category
+                'category' => \App\GraphQL\Queries\Category\CategoryQuery::class,
+                'categories' => \App\GraphQL\Queries\Category\CategoriesQuery::class,
             ],
             'mutation' => [
                 // ExampleMutation::class,
+                //user
                 'createUser' => \App\GraphQL\Mutations\User\CreateUserMutation::class,
                 'updateUser' => \App\GraphQL\Mutations\User\UpdateUserMutation::class,
                 'deleteUser' => \App\GraphQL\Mutations\User\DeleteUserMutation::class,
+
+                //category
+                'createCategory' => \App\GraphQL\Mutations\Category\CreateCategoryMutation::class,
+                'updateCategory' => \App\GraphQL\Mutations\Category\UpdateCategoryMutation::class,
+                'deleteCategory' => \App\GraphQL\Mutations\Category\DeleteCategoryMutation::class,
             ],
             // The types only available in this schema
             'types' => [
                 // ExampleType::class,
                 'User' => \App\GraphQL\Types\UserType::class,
+                'Category' => \App\GraphQL\Types\CategoryType::class,
             ],
 
             // Laravel HTTP middleware
