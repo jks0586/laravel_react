@@ -32,6 +32,7 @@ class CategoryForm extends React.Component {
 
     handleTitleChange (e) {
         this.setState({ title: e.target.value })
+        
         // console.log(this.state);
         e.preventDefault()
     }
@@ -43,7 +44,7 @@ class CategoryForm extends React.Component {
 
         setTimeout(function () {
             let imgset = document.getElementById('imagePreview');
-            this.setState({title : imgset.getAttribute('src')})
+            // this.setState({title : imgset.getAttribute('src')})
         }, 1000)
 
         e.preventDefault()
@@ -133,6 +134,7 @@ class CategoryForm extends React.Component {
     }
     handleSubmit (e) {
         e.preventDefault()
+        this.setState({formErrors:''});
         // console.log("yyyyyy");
         if (this.categoryValidate(e)) {
             const postdata = {}
