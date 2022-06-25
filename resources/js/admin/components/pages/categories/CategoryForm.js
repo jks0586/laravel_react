@@ -32,7 +32,7 @@ class CategoryForm extends React.Component {
 
     handleTitleChange (e) {
         this.setState({ title: e.target.value })
-        
+        this.setState({formErrors:{}});
         // console.log(this.state);
         e.preventDefault()
     }
@@ -41,7 +41,7 @@ class CategoryForm extends React.Component {
         // console.log(e.target.files[0]);
         this.setState({ image: e.target.files[0] })
         this.previewFile(e.target.files[0])
-
+        this.setState({formErrors:{}});
         setTimeout(function () {
             let imgset = document.getElementById('imagePreview');
             // this.setState({title : imgset.getAttribute('src')})
@@ -51,10 +51,12 @@ class CategoryForm extends React.Component {
     }
     handleSlugChange (e) {
         this.setState({ slug: e.target.value })
+        this.setState({formErrors:{}});
         e.preventDefault()
     }
     handleDescriptionChange (e) {
         this.setState({ description: e.target.value })
+        this.setState({formErrors:{}});
         e.preventDefault()
     }
     previewFile (file) {
@@ -134,13 +136,14 @@ class CategoryForm extends React.Component {
     }
     handleSubmit (e) {
         e.preventDefault()
-        this.setState({formErrors:''});
+        this.setState({formErrors:{}});
         // console.log("yyyyyy");
         if (this.categoryValidate(e)) {
             const postdata = {}
             Object.keys(this.state).forEach((value, index) => {
                 postdata.index = value
             })
+            console.log(postdata);
         }
 
         // console.log(postdata);
