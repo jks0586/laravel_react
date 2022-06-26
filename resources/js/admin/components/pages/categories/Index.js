@@ -1,45 +1,46 @@
-import React from "react";
-import { connect } from "react-redux";
-import Breadcrumb from "../../partials/Breadcrumb";
-import CategoryService from "./../../../apis/Category";
+import React from 'react';
+import { connect } from 'react-redux';
+import Breadcrumb from '../../partials/Breadcrumb';
+import CategoryService from './../../../apis/Category';
 // import {
 //     listCategories,
 //     setCategoryDefaults
 // } from '../../../store/actions/CategoryActions'
-import Card from "react-bootstrap/Card";
-import { Link } from "react-router-dom";
-import Table from "react-bootstrap/Table";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil } from '@fortawesome/free-solid-svg-icons'
+import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
+import Table from 'react-bootstrap/Table';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
+
 class CategoryList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { categories: [] };
+    constructor (props) {
+        super(props)
+        this.state = { categories: [] }
     }
 
-    componentDidMount() {
-        const qry = `{categories{id,title,image,slug}}`;
+    componentDidMount () {
+        const qry = `{categories{id,title,image,slug}}`
         CategoryService.listAll(qry)
-            .then((response) => {
-                this.setState({ categories: response.data.data.categories });
+            .then(response => {
+                this.setState({ categories: response.data.data.categories })
                 // console.log(response.data.data.categories);
                 // alert('aaaaa');
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch(error => {
+                console.log(error)
+            })
         // this.props.setCategoryDefaults(),
         // this.props.listCategories(1)
     }
 
-    render() {
+    render () {
         return (
             <Card>
                 <Card.Header>Category list</Card.Header>
                 <Card.Body>
                     <Table>
                         <thead>
-                            <tr key="head">
+                            <tr key='head'>
                                 <th>#</th>
                                 <th>Title</th>
                                 <th>Image</th>
@@ -48,18 +49,26 @@ class CategoryList extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                        {this.state.categories.map(function(object, i){
-                            return (<tr key={i}>
-                            <th>{i}</th>
-                            <th>{object.title}</th>
-                            <th><Card style={{ width: '50px' }}>
-                            <Card.Img id='imagePreview' src={object.image} />
-                        </Card></th>
-                            <th>{object.slug}</th>
-                            <th><FontAwesomeIcon icon={faPencil} /></th>
-                        </tr>);
-                        })}
-
+                            {this.state.categories.map(function (object, i) {
+                                return (
+                                    <tr key={i}>
+                                        <th>{i}</th>
+                                        <th>{object.title}</th>
+                                        <th>
+                                            <Card style={{ width: '50px' }}>
+                                                <Card.Img
+                                                    id='imagePreview'
+                                                    src={object.image}
+                                                />
+                                            </Card>
+                                        </th>
+                                        <th>{object.slug}</th>
+                                        <th>
+                                        <Link to={`/admin/categories/edit/${object.id}`}><FontAwesomeIcon icon={faPencil} /></Link>
+                                        </th>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </Table>
                 </Card.Body>
@@ -95,11 +104,11 @@ class CategoryList extends React.Component {
             //         </section>
             //     </Card>
             // </div>
-        );
+        )
     }
 }
 
-export default CategoryList;
+export default CategoryList
 
 // const mapStateToProps = (state, ownProps) => {
 //     return {
