@@ -1,6 +1,6 @@
 import axios from "axios";
 const Api = axios.create({
-  baseURL: "http://laravel-react.com/graphql",
+  baseURL: "http://laravel-react.com",
   headers: {
     "Content-type": "application/json",
     "Authorization":'Bearer '+localStorage.getItem('letscms_user_token'),

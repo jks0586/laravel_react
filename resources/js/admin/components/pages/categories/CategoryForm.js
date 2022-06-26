@@ -8,6 +8,9 @@ import _ from "lodash";
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import CategoryService from "./../../../apis/Category";
+import { request, gql } from 'graphql-request'
+import axios from 'axios'
+import Api from '../../../apis/api'
 class CategoryForm extends React.Component {
     constructor (props) {
         super(props)
@@ -73,17 +76,17 @@ class CategoryForm extends React.Component {
         if (file) {
             reader.readAsDataURL(file)
         }
-       
+
         reader.onloadend = function (e) {
             let imgset = document.getElementById('imagePreview')
             imgset.setAttribute('src', reader.result)
             imgset.setAttribute('width', 50)
             imgset.setAttribute('height', 50)
-            // 
+            //
             this.setState({ imagePreview: reader.result })
           }.bind(this);
-                  
-        
+
+
     }
     categoryValidate (e) {
         // console.log('aaaaaayyyyyyy', this.state)
@@ -132,22 +135,24 @@ class CategoryForm extends React.Component {
         // console.log(this.state.formErrors.length)
 
         if (_.isEmpty(this.state.formErrors)) {
-            
+
             return true;
+
         } else {
-            
+
             return false;
         }
 
         // console.log(formErrors);
     }
+
     handleSubmit (e) {
         e.preventDefault()
         // this.setState({formErrors:{}});
         // console.log("yyyyyy");
         if (this.categoryValidate(e)) {
             const postdata = {}
-            
+
             // console.log(this.state);
 
             Object.keys(this.state).forEach((value, index) => {
@@ -156,28 +161,58 @@ class CategoryForm extends React.Component {
             })
             // console.log(postdata);
 
-            let catpost=`
-            {
-                mutation{
-                createCategory(
-                  title:postdata.title,
-                  description:postdata.description,
-                  image:postdata.image,
-                  slug:postdata.slug,
-                ){id,title,image,description,slug}
-              }}
-              `;
-
+            const catpost = {
+                query: `mutation createCategory($title: String!, $description: String!, $image: String!, $slug: String!) {
+                    createCategory(title: $title,description: $description,image: $image,slug: $slug,){
+                    title,
+                    description,
+                    image,
+                    slug
+                  }
+                }`,
+                variables: {
+                  title: postdata.title,
+                  description: postdata.description,
+                  image: postdata.imagePreview,
+                  slug: postdata.slug
+                }
+              }
             //   console.log(catpost);
             CategoryService.add(catpost).then((response)=>{
-                console.log(response);
+                // console.log(response);
             }).catch((error)=>{
                 console.log(error);
             })
-            // 
+            //
         }
 
         // console.log(postdata);
+    }
+
+
+    componentDidMount(){
+
+        // const data = Api.post('/graphql',{
+        //     query: `mutation createCategory($title: String!, $description: String!, $image: String!, $slug: String!) {
+        //         createCategory(title: $title,description: $description,image: $image,slug: $slug,){
+        //         title,
+        //         description,
+        //         image,
+        //         slug
+        //       }
+        //     }`,
+        //     variables: {
+        //       title: 'jhjhjhhjhjhj',
+        //       description: 'hjskjdlkgjlskjdglksjdlkgjs,dgs gsgjslk',
+        //       image: 'hjskjdlkgjlskjdglksjdlkgjs,dgs gsgjslk',
+        //       slug: 'slug'
+        //     }
+        //   }, {
+        //       headers: {
+        //         'Content-Type': 'application/json'
+        //       }
+        //     })
+
     }
 
     render () {

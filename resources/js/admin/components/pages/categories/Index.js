@@ -9,6 +9,8 @@ import CategoryService from "./../../../apis/Category";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencil } from '@fortawesome/free-solid-svg-icons'
 class CategoryList extends React.Component {
     constructor(props) {
         super(props);
@@ -50,12 +52,14 @@ class CategoryList extends React.Component {
                             return (<tr key={i}>
                             <th>{i}</th>
                             <th>{object.title}</th>
-                            <th>{object.image}</th>
+                            <th><Card style={{ width: '50px' }}>
+                            <Card.Img id='imagePreview' src={object.image} />
+                        </Card></th>
                             <th>{object.slug}</th>
-                            <th>Action</th>
+                            <th><FontAwesomeIcon icon={faPencil} /></th>
                         </tr>);
                         })}
-                        
+
                         </tbody>
                     </Table>
                 </Card.Body>

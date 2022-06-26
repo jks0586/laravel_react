@@ -3,12 +3,12 @@ import Api from "./api"
 const CategoryService = {
 
      listAll: async (req)=>{
-        console.log(req);
-        return await Api.get('?query='+req);
-        
+        // console.log(req);
+        return await Api.get('/graphql?query='+req);
+
     },
     add: async (req) => {
-        return await Api.get('?query='+req)
+        return await Api.post('/graphql',req)
     }
 
 
