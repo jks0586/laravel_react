@@ -8,6 +8,13 @@ const CategoryService = {
 
     },
     add: async (req) => {
+        console.log(req);
+        return await Api.post('/graphql',req)
+    },
+    delete: async (req) => {
+        
+        console.log(req);
+
         return await Api.post('/graphql',req)
     }
 

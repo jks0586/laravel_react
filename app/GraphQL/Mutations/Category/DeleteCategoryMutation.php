@@ -23,7 +23,7 @@ class DeleteCategoryMutation extends Mutation
         return [
             'id' => [
                 'name' => 'id',
-                'type' => Type::int(),
+                'type' => Type::nonNull(Type::int()),
                 'rules' => ['required']
             ]
         ];

@@ -26,6 +26,7 @@ class Routes extends React.Component
                     <AuthenticatedRoute exact path='/admin/categories' component={CategoryList} />
                     <AuthenticatedRoute path='/admin/categories/add' component={AddCategories} />
                     <AuthenticatedRoute path='/admin/categories/edit/:id' component={EditCategories} />
+                    
                     {/* <Route exact path='/admin/' component={Dashboard} />
                     <Route exact path='/admin/posts' component={ListPosts} />
                     <Route path='/posts/add' component={AddPosts} />

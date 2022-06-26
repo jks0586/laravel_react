@@ -10,12 +10,37 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil } from '@fortawesome/free-solid-svg-icons';
-
+import { faPencil,faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Audio } from  'react-loader-spinner';
 class CategoryList extends React.Component {
     constructor (props) {
         super(props)
         this.state = { categories: [] }
+       
+        // this.titleonChange = this.titleonChange.bind(this);
+
+        this.handleDelete = this.handleDelete.bind(this);
+    }
+
+    handleDelete(e){
+       e.preventDefault();
+    const id=parseInt(e.target.parentElement.dataset.key);
+      const catpost = {
+        query: `mutation deleteCategory($id:Int!) {
+            deleteCategory(id:$id)
+        }`,
+        variables: {
+          id:id
+        }
+      }
+
+    
+    CategoryService.delete(catpost).then((response)=>{
+        console.log(response);
+    }).catch((error)=>{
+        console.log(error);
+    })
+
     }
 
     componentDidMount () {
@@ -31,12 +56,20 @@ class CategoryList extends React.Component {
             })
         // this.props.setCategoryDefaults(),
         // this.props.listCategories(1)
+        
     }
 
     render () {
         return (
             <Card>
+                <Audio
+                    height="100"
+                    width="100"
+                    color='grey'
+                    ariaLabel='loading'
+                />
                 <Card.Header>Category list</Card.Header>
+                
                 <Card.Body>
                     <Table>
                         <thead>
@@ -49,7 +82,7 @@ class CategoryList extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.categories.map(function (object, i) {
+                            {this.state.categories.map((object, i) => {
                                 return (
                                     <tr key={i}>
                                         <th>{i}</th>
@@ -64,7 +97,7 @@ class CategoryList extends React.Component {
                                         </th>
                                         <th>{object.slug}</th>
                                         <th>
-                                        <Link to={`/admin/categories/edit/${object.id}`}><FontAwesomeIcon icon={faPencil} /></Link>
+                                        <Link to={`/admin/categories/edit/${object.id}`}><FontAwesomeIcon icon={faPencil} /></Link> | <FontAwesomeIcon icon={faTrash} data-key={object.id}  onClick={this.handleDelete} />  
                                         </th>
                                     </tr>
                                 )
@@ -73,52 +106,8 @@ class CategoryList extends React.Component {
                     </Table>
                 </Card.Body>
             </Card>
-            // <div className="content-wrapper">
-            //     <Card>
-            //         <Card.Header>Categories List</Card.Header>
-
-            //         <section className="content-header">
-            //             <h1>Categories</h1>
-
-            //         </section>
-
-            //         <section className="content">
-            //             <div className="row">
-            //                 <div className="col-md-12">
-            //                     <div className="box">
-            //                         <div className="box-header">
-            //                             <h3 className="box-title">
-            //                                 All categories
-            //                             </h3>
-            //                             <Link
-            //                                 to="/admin/categories/add"
-            //                                 className="btn btn-primary pull-right"
-            //                             >
-            //                                 {" "}
-            //                                 Add <i className="fa fa-plus"></i>
-            //                             </Link>
-            //                         </div>
-            //                     </div>
-            //                 </div>
-            //             </div>
-            //         </section>
-            //     </Card>
-            // </div>
         )
     }
 }
 
 export default CategoryList
-
-// const mapStateToProps = (state, ownProps) => {
-//     return {
-//         categories: state.category
-//     };
-// };
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         listCategories: (page) => dispatch(listCategories(page)),
-//         setCategoryDefaults: () => dispatch(setCategoryDefaults())
-//     }
-// };
-// export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);
