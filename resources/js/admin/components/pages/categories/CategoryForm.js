@@ -11,11 +11,13 @@ import CategoryService from "./../../../apis/Category";
 import { request, gql } from 'graphql-request'
 import axios from 'axios'
 import Api from '../../../apis/api'
+import { withRouter } from 'react-router-dom';
+
 class CategoryForm extends React.Component {
     constructor (props) {
         super(props)
         // console.log(this.props.categories.category.title);
-        // console.log(this.props);
+        console.log(this.props);
         this.state = {
             title: '',
             description: '',
@@ -191,32 +193,35 @@ class CategoryForm extends React.Component {
 
 
     componentDidMount(){
-
-        // const data = Api.post('/graphql',{
-        //     query: `mutation createCategory($title: String!, $description: String!, $image: String!, $slug: String!) {
-        //         createCategory(title: $title,description: $description,image: $image,slug: $slug,){
-        //         title,
-        //         description,
-        //         image,
-        //         slug
-        //       }
-        //     }`,
-        //     variables: {
-        //       title: 'jhjhjhhjhjhj',
-        //       description: 'hjskjdlkgjlskjdglksjdlkgjs,dgs gsgjslk',
-        //       image: 'hjskjdlkgjlskjdglksjdlkgjs,dgs gsgjslk',
-        //       slug: 'slug'
-        //     }
-        //   }, {
-        //       headers: {
-        //         'Content-Type': 'application/json'
-        //       }
-        //     })
-
+        const {id} = this.props.match.params;
+        // console.log(id);
+        const uid=parseInt(id);
+        const catpost = {
+            query: `getCategory($id:Int!){
+                    category(id:$id){
+                        title,
+                        description,
+                        image
+                        slug
+                      }
+                }
+            `,
+            variables: {
+              id: uid,
+            }
+          }
+        //   console.log(catpost);
+        CategoryService.get(catpost).then((response)=>{
+            console.log(response);
+        }).catch((error)=>{
+            console.log(error);
+        })
     }
 
     render () {
+        // const { id } = this.props.match.params;
         return (
+            // const { userName } = this.props.match.params;
             <>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group className='mb-3' controlId='formTitle'>
@@ -332,4 +337,4 @@ class CategoryForm extends React.Component {
     }
 }
 
-export default CategoryForm
+export default withRouter(CategoryForm)

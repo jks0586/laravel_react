@@ -1,6 +1,6 @@
 <?php
 
-// app/graphql/queries/user/UserQuery 
+// app/graphql/queries/user/UserQuery
 
 namespace App\GraphQL\Queries\Category;
 

@@ -1,15 +1,17 @@
 import React from "react";
 import Breadcrumb from "../../partials/Breadcrumb";
+import Card from 'react-bootstrap/Card'
+import CategoryForm from './CategoryForm'
 class CategoryEdit extends React.Component
 {
      render(){
         return(
-            <div className="content-wrapper">
-                <Breadcrumb/>
-                <section className="content">
-                    Edit categories
-                </section>
-            </div>
+            <Card>
+                <Card.Header>Edit Category</Card.Header>
+                <Card.Body>
+                    <CategoryForm />
+                </Card.Body>
+            </Card>
         )
     }
 }

@@ -16,7 +16,7 @@ class CategoryList extends React.Component {
     constructor (props) {
         super(props)
         this.state = { categories: [] }
-       
+
         // this.titleonChange = this.titleonChange.bind(this);
 
         this.handleDelete = this.handleDelete.bind(this);
@@ -34,7 +34,7 @@ class CategoryList extends React.Component {
         }
       }
 
-    
+
     CategoryService.delete(catpost).then((response)=>{
         console.log(response);
     }).catch((error)=>{
@@ -48,15 +48,14 @@ class CategoryList extends React.Component {
         CategoryService.listAll(qry)
             .then(response => {
                 this.setState({ categories: response.data.data.categories })
-                // console.log(response.data.data.categories);
-                // alert('aaaaa');
+
             })
             .catch(error => {
                 console.log(error)
             })
         // this.props.setCategoryDefaults(),
         // this.props.listCategories(1)
-        
+
     }
 
     render () {
@@ -69,7 +68,7 @@ class CategoryList extends React.Component {
                     ariaLabel='loading'
                 />
                 <Card.Header>Category list</Card.Header>
-                
+
                 <Card.Body>
                     <Table>
                         <thead>
@@ -97,7 +96,7 @@ class CategoryList extends React.Component {
                                         </th>
                                         <th>{object.slug}</th>
                                         <th>
-                                        <Link to={`/admin/categories/edit/${object.id}`}><FontAwesomeIcon icon={faPencil} /></Link> | <FontAwesomeIcon icon={faTrash} data-key={object.id}  onClick={this.handleDelete} />  
+                                        <Link to={`/admin/categories/edit/${object.id}`}><FontAwesomeIcon icon={faPencil} /></Link> | <FontAwesomeIcon icon={faTrash} data-key={object.id}  onClick={this.handleDelete} />
                                         </th>
                                     </tr>
                                 )
