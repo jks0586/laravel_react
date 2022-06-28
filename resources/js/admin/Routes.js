@@ -13,6 +13,9 @@ import AddPosts from "./components/pages/posts/Add";
 import CategoryList from "./components/pages/categories/Index";
 import AddCategories from "./components/pages/categories/Add";
 import EditCategories from "./components/pages/categories/Edit";
+import ListUsers from "./components/pages/users/Index";
+import AddUser from "./components/pages/users/Add";
+import EditUser from "./components/pages/users/Edit";
 
 class Routes extends React.Component
 {
@@ -26,6 +29,9 @@ class Routes extends React.Component
                     <AuthenticatedRoute exact path='/admin/categories' component={CategoryList} />
                     <AuthenticatedRoute path='/admin/categories/add' component={AddCategories} />
                     <AuthenticatedRoute path='/admin/categories/edit/:id' component={EditCategories} />
+                    <AuthenticatedRoute exact path='/admin/users' component={ListUsers} />
+                    <AuthenticatedRoute path='/admin/users/add' component={AddUser} />
+                    <AuthenticatedRoute path='/admin/users/edit/:id' component={EditUser} />
 
                     {/* <Route exact path='/admin/' component={Dashboard} />
                     <Route exact path='/admin/posts' component={ListPosts} />

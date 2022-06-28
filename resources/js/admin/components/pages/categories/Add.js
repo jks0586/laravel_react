@@ -8,12 +8,9 @@ import CategoryForm from './CategoryForm'
 class CategoryAdd extends React.Component {
     constructor (props) {
         super(props)
-        // this.handleChange = this.handleChange.bind(this)
-        // this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     componentDidMount () {
-        // this.props.setCategoryDefaults();
     }
 
     handleChange (e) {
@@ -23,19 +20,7 @@ class CategoryAdd extends React.Component {
 
     handleSubmit (e) {
         e.preventDefault()
-        // console.log(this);
-        let self = this
-        // console.log(this.props.categories);
 
-        // this.props.addCategory(
-        //     // this.props.categories.category.title,
-        //     function () {
-        //         self.props.handleTitleChange('');
-        //         setTimeout(() => {
-        //             self.props.history.push('/admin/categories');
-        //         }, 2000);
-        //     }
-        // )
     }
     render () {
         return (
@@ -49,19 +34,3 @@ class CategoryAdd extends React.Component {
     }
 }
 export default CategoryAdd
-
-// const mapStateToProps = (state, ownProps) => {
-//     return {
-//         categories: state.category
-//     }
-// }
-
-// const mapDispatchToProps = (dispatch, ownProps) => {
-//     return {
-//         handleTitleChange: title => dispatch(handleCategoryTitle(title)),
-//         addCategory: (title, cb) => dispatch(addCategory(title, cb)),
-//         setCategoryDefaults: () => dispatch(setCategoryDefaults())
-//     }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(CategoryAdd)
