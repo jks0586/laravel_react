@@ -1,6 +1,6 @@
 <?php
 
-// app/graphql/mutations/user/CreateUserMutation 
+// app/graphql/mutations/user/CreateUserMutation
 
 namespace App\GraphQL\Mutations\User;
 
@@ -24,9 +24,21 @@ class CreateUserMutation extends Mutation
     public function args(): array
     {
         return [
-            'title' => [
-                'name' => 'title',
+            'name' => [
+                'name' => 'name',
                 'type' =>  Type::nonNull(Type::string()),
+            ],
+            'email' => [
+                'name' => 'email',
+                'type' =>  Type::nonNull(Type::string()),
+            ],
+            'password' => [
+                'name' => 'password',
+                'type' =>  Type::nonNull(Type::string()),
+            ],
+            'is_admin' => [
+                'name' => 'is_admin',
+                'type' =>  Type::nonNull(Type::int()),
             ],
         ];
     }

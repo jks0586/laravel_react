@@ -1,6 +1,6 @@
 <?php
 
-// app/graphql/types/CategoryType 
+// app/graphql/types/CategoryType
 
 namespace App\GraphQL\Types;
 
@@ -29,6 +29,10 @@ class UserType extends GraphQLType
                 'description' => 'Name of the User'
             ],
             'email' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'Email of the User'
+            ],
+            'password' => [
                 'type' => Type::nonNull(Type::string()),
                 'description' => 'Email of the User'
             ],

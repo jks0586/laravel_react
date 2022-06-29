@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Breadcrumb from '../../partials/Breadcrumb';
-import CategoryService from './../../../apis/Category';
+import UserService from './../../../apis/Users';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
@@ -11,10 +11,8 @@ import { Audio } from  'react-loader-spinner';
 class ListUsers extends React.Component {
     constructor (props) {
         super(props)
-        this.state = { categories: [] }
-
+        this.state = { users: [] }
         // this.titleonChange = this.titleonChange.bind(this);
-
         this.handleDelete = this.handleDelete.bind(this);
     }
 
@@ -22,8 +20,8 @@ class ListUsers extends React.Component {
        e.preventDefault();
     const id=parseInt(e.target.parentElement.dataset.key);
       const catpost = {
-        query: `mutation deleteCategory($id:Int!) {
-            deleteCategory(id:$id)
+        query: `mutation deleteUser($id:Int!) {
+            deleteUser(id:$id)
         }`,
         variables: {
           id:id
@@ -31,7 +29,7 @@ class ListUsers extends React.Component {
       }
 
 
-    CategoryService.delete(catpost).then((response)=>{
+    UserService.delete(catpost).then((response)=>{
         console.log(response);
     }).catch((error)=>{
         console.log(error);
@@ -40,10 +38,10 @@ class ListUsers extends React.Component {
     }
 
     componentDidMount () {
-        const qry = `{categories{id,title,image,slug}}`
-        CategoryService.listAll(qry)
+        const qry = `{users{id,name,email,is_admin}}`
+        UserService.listAll(qry)
             .then(response => {
-                this.setState({ categories: response.data.data.categories })
+                this.setState({ users: response.data.data.users })
 
             })
             .catch(error => {
@@ -70,22 +68,17 @@ class ListUsers extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.categories.map((object, i) => {
+                            {this.state.users.map((object, i) => {
                                 return (
                                     <tr key={i}>
                                         <th>{i}</th>
-                                        <th>{object.title}</th>
+                                        <th>{object.name}</th>
                                         <th>
-                                            <Card style={{ width: '50px' }}>
-                                                <Card.Img
-                                                    id='imagePreview'
-                                                    src={object.image}
-                                                />
-                                            </Card>
+                                        {object.email}
                                         </th>
-                                        <th>{object.slug}</th>
+                                        <th>{object.is_admin}</th>
                                         <th>
-                                        <Link to={`/admin/categories/edit/${object.id}`}><FontAwesomeIcon icon={faPencil} /></Link> | <FontAwesomeIcon icon={faTrash} data-key={object.id}  onClick={this.handleDelete} />
+                                        <Link to={`/admin/users/edit/${object.id}`}><FontAwesomeIcon icon={faPencil} /></Link> | <FontAwesomeIcon icon={faTrash} data-key={object.id}  onClick={this.handleDelete} />
                                         </th>
                                     </tr>
                                 )

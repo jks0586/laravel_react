@@ -1,6 +1,6 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card'
-
+import UserForm from './UserForm';
 
 class EditUser extends React.Component {
     constructor (props) {

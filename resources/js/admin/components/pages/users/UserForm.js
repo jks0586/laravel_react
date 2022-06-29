@@ -1,16 +1,12 @@
 import React from 'react'
-import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import Card from 'react-bootstrap/Card'
 import Alert from 'react-bootstrap/Alert'
-import _ from "lodash";
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import UserService from "./../../../apis/users";
+
+import UserService from "./../../../apis/Users";
 import { request, gql } from 'graphql-request'
 import { withRouter } from 'react-router-dom';
-
+import validator from 'validator'
 class UserForm extends React.Component {
     constructor (props) {
         super(props)
@@ -30,8 +26,8 @@ class UserForm extends React.Component {
         this.handleIsadminChange = this.handleIsadminChange.bind(this)
         // this.handleSlugChange = this.handleSlugChange.bind(this)
         // this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
-        // this.handleSubmit = this.handleSubmit.bind(this)
-        // this.categoryValidate = this.categoryValidate.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        // this.userValidate = this.userValidate.bind(this)
     }
 
     handleNameChange (e) {
@@ -42,8 +38,16 @@ class UserForm extends React.Component {
 
 
     handleEmailChange (e) {
+        let fieldValidationErrors = this.state.formErrors;
         this.setState({ email: e.target.value })
         delete this.state.formErrors['email'];
+        const email= e.target.value;
+        if (validator.isEmail(email)) {
+        } else {
+          fieldValidationErrors['email'] =
+          email.charAt(0).toUpperCase() + email.slice(1) + ' is Not valid'
+        }
+        this.setState({ formErrors: fieldValidationErrors })
         e.preventDefault()
     }
 
@@ -54,39 +58,56 @@ class UserForm extends React.Component {
         e.preventDefault()
     }
 
-    categoryValidate (e) {
+    handleIsadminChange(e){
+        e.preventDefault();
+        this.setState({ is_admin: e.target.value })
+        // alert(e.target.value);
+    }
 
+    userValidate(e) {
+        // console.log(this.state);
         let fieldValidationErrors = this.state.formErrors
         Object.keys(this.state).forEach((value, index) => {
-            if (
-                value == 'title' &&
-                (this.state[value] == '' || this.state[value] == undefined)
-            ) {
-                fieldValidationErrors[value] =
-                    value + ' Field could not be empty'
-            }
-            if (
-                value == 'description' &&
-                (this.state[value] == '' || this.state[value] == undefined)
-            ) {
-                fieldValidationErrors[value] =
-                    value + ' Field could not be empty'
-            }
-            if (
-                value == 'image' &&
-                (this.state[value] == '' || this.state[value] == undefined)
-            ) {
-                fieldValidationErrors[value] =
-                    value + ' Field could not be empty'
-            }
-            if (
-                value == 'slug' &&
-                (this.state[value] == '' || this.state[value] == undefined)
-            ) {
-                fieldValidationErrors[value] =
-                    value + ' Field could not be empty'
-            }
+            switch(value){
+            case 'name':
+                if (
+                    value == 'name' &&
+                    (this.state[value] == '' || this.state[value] == undefined)
+                ) {
+                    fieldValidationErrors[value] =
+                        value.charAt(0).toUpperCase() + value.slice(1) + ' Field could not be empty'
+                }
+            break;
 
+
+            case 'email':
+                if (
+                    value == 'email' &&
+                    (this.state[value] == '' || this.state[value] == undefined)
+                ) {
+                    fieldValidationErrors[value] =
+                    value.charAt(0).toUpperCase() + value.slice(1) + ' Field could not be empty'
+                }
+                else {
+                    let email=this.state[value];
+                    // console.log(email,'aaaaauuuuu');
+                    // if (validator.isEmail(email)) {
+                    //     fieldValidationErrors[value] = '';
+                    // } else {
+                    //     fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) + ' is Not valid';
+                    // }
+                }
+            break;
+            case 'password':
+                if (
+                    value == 'password' &&
+                    (this.state[value] == '' || this.state[value] == undefined)
+                ) {
+                    fieldValidationErrors[value] =
+                    value.charAt(0).toUpperCase() + value.slice(1) + ' Field could not be empty'
+                }
+            break;
+            }
             // console.log(value,this.state[value]);
         })
 
@@ -97,11 +118,8 @@ class UserForm extends React.Component {
         // console.log(this.state.formErrors.length)
 
         if (_.isEmpty(this.state.formErrors)) {
-
             return true;
-
         } else {
-
             return false;
         }
 
@@ -109,10 +127,11 @@ class UserForm extends React.Component {
     }
 
     handleSubmit (e) {
-        e.preventDefault()
+        e.preventDefault();
         // this.setState({formErrors:{}});
         // console.log("yyyyyy");
-        if (this.categoryValidate(e)) {
+
+        if (this.userValidate(e)) {
             const postdata = {}
 
             // console.log(this.state);
@@ -124,28 +143,28 @@ class UserForm extends React.Component {
             // console.log(postdata);
 
             const catpost = {
-                query: `mutation createCategory($title: String!, $description: String!, $image: String!, $slug: String!) {
-                    createCategory(title: $title,description: $description,image: $image,slug: $slug,){
-                    title,
-                    description,
-                    image,
-                    slug
+                query: `mutation createUser($name: String!, $email: String!, $password: String!, $is_admin: Int!) {
+                    createUser(name: $name,email: $email,password: $password,is_admin: $is_admin){
+                    name,
+                    email,
+                    password,
+                    is_admin
                   }
                 }`,
                 variables: {
-                  title: postdata.title,
-                  description: postdata.description,
-                  image: postdata.imagePreview,
-                  slug: postdata.slug
+                  name: postdata.name,
+                  email: postdata.email,
+                  password: postdata.password,
+                  is_admin: parseInt(postdata.is_admin)
                 }
               }
-            //   console.log(catpost);
-            // CategoryService.add(catpost).then((response)=>{
-            //     // console.log(response);
-            // }).catch((error)=>{
-            //     console.log(error);
-            // })
-            //
+              console.log(catpost);
+            UserService.add(catpost).then((response)=>{
+                console.log(response);
+            }).catch((error)=>{
+                console.log(error);
+            })
+
         }
 
         // console.log(postdata);
@@ -246,11 +265,12 @@ class UserForm extends React.Component {
 
                     <Form.Group className='mb-3' controlId='formIsadmin'>
                     <Form.Check
-                        disabled
                         type="checkbox"
                         name="is_admin"
                         label='Is Admin'
+                        value='1'
                         id={`disabled-default-checkbox`}
+                        onChange={this.handleIsadminChange}
                     />
                     </Form.Group>
 
