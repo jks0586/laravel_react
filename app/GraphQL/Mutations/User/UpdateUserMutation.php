@@ -36,6 +36,10 @@ class UpdateUserMutation extends Mutation
                 'name' => 'email',
                 'type' =>  Type::nonNull(Type::string()),
             ],
+            'avtar' => [
+                'name' => 'avtar',
+                'type' =>  Type::string(),
+            ],
             'password' => [
                 'name' => 'password',
                 'type' =>  Type::string(),

@@ -1,5 +1,6 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
+import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
 
@@ -15,6 +16,9 @@ class UserForm extends React.Component {
         this.state = {
             name: '',
             email: '',
+            avtar:'',
+            avtarPreview: '',
+            avtarPreviewUrl: '',
             password: '',
             is_admin: '',
             formErrors: {},
@@ -22,6 +26,7 @@ class UserForm extends React.Component {
 
         this.handleNameChange = this.handleNameChange.bind(this)
         this.handleEmailChange = this.handleEmailChange.bind(this)
+        this.handleImageChange = this.handleImageChange.bind(this)
         this.handlePasswordChange = this.handlePasswordChange.bind(this)
         this.handleIsadminChange = this.handleIsadminChange.bind(this)
         // this.handleSlugChange = this.handleSlugChange.bind(this)
@@ -36,6 +41,36 @@ class UserForm extends React.Component {
         e.preventDefault()
     }
 
+    handleImageChange (e) {
+        this.setState({ avtar: e.target.files[0] })
+        this.previewFile(e.target.files[0])
+        delete this.state.formErrors['avtar'];
+        
+        setTimeout(function () {
+            let imgset = document.getElementById('avtarPreview');
+            // this.setState({title : imgset.getAttribute('src')})
+        }, 1000)
+
+        e.preventDefault()
+    }
+
+    previewFile (file) {
+        const reader = new FileReader()
+        if (file) {
+            reader.readAsDataURL(file)
+        }
+        
+        reader.onloadend = function (e) {
+            let imgset = document.getElementById('avtarPreview')
+            imgset.setAttribute('src', reader.result)
+            imgset.setAttribute('width', 50)
+            imgset.setAttribute('height', 50)
+            //
+            this.setState({ avtarPreview: reader.result })
+          }.bind(this);
+
+
+    }
 
     handleEmailChange (e) {
         let fieldValidationErrors = this.state.formErrors;
@@ -131,6 +166,10 @@ class UserForm extends React.Component {
         e.preventDefault();
         const {id} = this.props.match.params;
         if (this.userValidate(e)) {
+            
+            console.log(this.state);
+
+
             const postdata = {}
              Object.keys(this.state).forEach((value, index) => {
                 postdata[value] = this.state[value]
@@ -143,11 +182,12 @@ class UserForm extends React.Component {
                 // }
 
                 const catpost = {
-                    query: `mutation updateUser($id: Int!,$name: String!, $email: String!,$password: String,  $is_admin: Int!) {
-                        updateUser(id:$id,name: $name,email: $email,password:$password,is_admin: $is_admin){
+                    query: `mutation updateUser($id: Int!,$name: String!, $email: String!,$avtar: String,$password: String,  $is_admin: Int!) {
+                        updateUser(id:$id,name: $name,email: $email,avtar:$avtar,password:$password,is_admin: $is_admin){
                             id,
                             name,
                             email,
+                            avtar,
                             password,
                             is_admin
                         }
@@ -156,6 +196,7 @@ class UserForm extends React.Component {
                         id: parseInt(id),
                         name: postdata.name,
                         email: postdata.email,
+                        avtar: postdata.avtar,
                         password: postdata.password,
                         is_admin: parseInt(postdata.is_admin)
                     }
@@ -170,10 +211,11 @@ class UserForm extends React.Component {
             } else {
 
                 const catpost = {
-                    query: `mutation createUser($name: String!, $email: String!, $password: String!, $is_admin: Int!) {
-                        createUser(name: $name,email: $email,password: $password,is_admin: $is_admin){
+                    query: `mutation createUser($name: String!, $email: String!, $avtar: String,$password: String!, $is_admin: Int!) {
+                        createUser(name: $name,email: $email,avtar: $avtar,password: $password,is_admin: $is_admin){
                             name,
                             email,
+                            avtar,
                             password,
                             is_admin
                         }
@@ -182,6 +224,7 @@ class UserForm extends React.Component {
                         name: postdata.name,
                         email: postdata.email,
                         password: postdata.password,
+                        avtar: postdata.avtar,
                         is_admin: parseInt(postdata.is_admin)
                     }
                 }
@@ -299,7 +342,29 @@ class UserForm extends React.Component {
                             Please fill User password
                         </Form.Text>
                     </Form.Group>
+                    <Form.Group className='mb-3' controlId='formImage'>
+                        <Form.Label>Avtar</Form.Label>
+                        <Form.Control
+                            type='file'
+                            placeholder='Select Image'
+                            name='avtar'
+                            onChange={this.handleImageChange}
+                        />
+                        <Card style={{ width: '50px' }}>
+                            <Card.Img id='avtarPreview' src='' />
+                        </Card>
+                        <Alert
+                            show={this.state.formErrors['avtar'] ? true : false}
+                            variant='danger'
+                        >
+                            {this.state.formErrors['avtar']}
+                        </Alert>
+                        <div className='clearfix'></div>
 
+                        <Form.Text className='text-muted'>
+                            Please select you image
+                        </Form.Text>
+                    </Form.Group>
                     <Form.Group className='mb-3' controlId='formIsadmin'>
                     <Form.Check
                         type="checkbox"

@@ -101,6 +101,7 @@ return [
                 // ExampleType::class,
                 'User' => \App\GraphQL\Types\UserType::class,
                 'Category' => \App\GraphQL\Types\CategoryType::class,
+                \Rebing\GraphQL\Support\UploadType::class,
             ],
 
             // Laravel HTTP middleware

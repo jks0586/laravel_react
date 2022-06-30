@@ -32,6 +32,10 @@ class CreateUserMutation extends Mutation
                 'name' => 'email',
                 'type' =>  Type::nonNull(Type::string()),
             ],
+            'avtar' => [
+                'name' => 'avtar',
+                'type' =>  Type::string(),
+            ],
             'password' => [
                 'name' => 'password',
                 'type' =>  Type::nonNull(Type::string()),
@@ -45,6 +49,7 @@ class CreateUserMutation extends Mutation
 
     public function resolve($root, $args)
     {
+        echo '<pre>'; print_r($args);echo '</pre>'; die;
         $user = new User();
         $user->fill($args);
         $user->save();
