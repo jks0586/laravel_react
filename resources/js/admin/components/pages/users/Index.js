@@ -47,9 +47,6 @@ class ListUsers extends React.Component {
             .catch(error => {
                 console.log(error)
             })
-        // this.props.setCategoryDefaults(),
-        // this.props.listCategories(1)
-
     }
 
     render () {
@@ -63,7 +60,7 @@ class ListUsers extends React.Component {
                                 <th>#</th>
                                 <th>Title</th>
                                 <th>Image</th>
-                                <th>Slug</th>
+                                <th>Is Admin</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

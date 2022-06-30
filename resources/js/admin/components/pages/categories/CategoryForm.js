@@ -197,7 +197,7 @@ class CategoryForm extends React.Component {
         // console.log(id);
         const uid=parseInt(id);
         const catpost = {
-            query: `getCategory($id:Int!){
+            query: `query getCategory($id:Int!){
                     category(id:$id){
                         title,
                         description,

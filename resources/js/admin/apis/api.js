@@ -1,4 +1,12 @@
 import axios from "axios";
+
+
+// axios.prototype.getRes = function getRes(res) {
+//   const datares={'t1':'aaaa','t2':'yyyy'};
+//   return datares;
+// };
+
+
 const Api = axios.create({
   baseURL: "http://laravel-react.com",
   headers: {
@@ -7,6 +15,11 @@ const Api = axios.create({
   }
 });
 
+// Api.prototype.Letres=function(){
+//   const datares={'t1':'aaaa','t2':'yyyy'};
+//   // console.log('aaaaaa');
+//   return datares;
+// }
 
 export default Api
 

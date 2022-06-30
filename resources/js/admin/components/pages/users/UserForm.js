@@ -66,6 +66,7 @@ class UserForm extends React.Component {
 
     userValidate(e) {
         // console.log(this.state);
+        const {id} = this.props.match.params;
         let fieldValidationErrors = this.state.formErrors
         Object.keys(this.state).forEach((value, index) => {
             switch(value){
@@ -100,7 +101,7 @@ class UserForm extends React.Component {
             break;
             case 'password':
                 if (
-                    value == 'password' &&
+                    value == 'password' && ( id=='' || id==undefined) &&
                     (this.state[value] == '' || this.state[value] == undefined)
                 ) {
                     fieldValidationErrors[value] =
@@ -128,60 +129,86 @@ class UserForm extends React.Component {
 
     handleSubmit (e) {
         e.preventDefault();
-        // this.setState({formErrors:{}});
-        // console.log("yyyyyy");
-
+        const {id} = this.props.match.params;
         if (this.userValidate(e)) {
             const postdata = {}
-
-            // console.log(this.state);
-
-            Object.keys(this.state).forEach((value, index) => {
+             Object.keys(this.state).forEach((value, index) => {
                 postdata[value] = this.state[value]
-                // console.log(value,this.state.value);
             })
-            // console.log(postdata);
+            if(id){
+                // if(postdata.password!='' && postdata.password!=undefined){
+                //     password=postdata.password;
+                // } else {
+                //     password=postdata.password;
+                // }
 
-            const catpost = {
-                query: `mutation createUser($name: String!, $email: String!, $password: String!, $is_admin: Int!) {
-                    createUser(name: $name,email: $email,password: $password,is_admin: $is_admin){
-                    name,
-                    email,
-                    password,
-                    is_admin
-                  }
-                }`,
-                variables: {
-                  name: postdata.name,
-                  email: postdata.email,
-                  password: postdata.password,
-                  is_admin: parseInt(postdata.is_admin)
+                const catpost = {
+                    query: `mutation updateUser($id: Int!,$name: String!, $email: String!,$password: String,  $is_admin: Int!) {
+                        updateUser(id:$id,name: $name,email: $email,password:$password,is_admin: $is_admin){
+                            id,
+                            name,
+                            email,
+                            password,
+                            is_admin
+                        }
+                    }`,
+                    variables: {
+                        id: parseInt(id),
+                        name: postdata.name,
+                        email: postdata.email,
+                        password: postdata.password,
+                        is_admin: parseInt(postdata.is_admin)
+                    }
                 }
-              }
-              console.log(catpost);
-            UserService.add(catpost).then((response)=>{
-                console.log(response);
-            }).catch((error)=>{
-                console.log(error);
-            })
+                
+                UserService.add(catpost).then((response)=>{
+                    console.log(response);
+                }).catch((error)=>{
+                    console.log(error);
+                })
 
+            } else {
+
+                const catpost = {
+                    query: `mutation createUser($name: String!, $email: String!, $password: String!, $is_admin: Int!) {
+                        createUser(name: $name,email: $email,password: $password,is_admin: $is_admin){
+                            name,
+                            email,
+                            password,
+                            is_admin
+                        }
+                    }`,
+                    variables: {
+                        name: postdata.name,
+                        email: postdata.email,
+                        password: postdata.password,
+                        is_admin: parseInt(postdata.is_admin)
+                    }
+                }
+                
+                UserService.add(catpost).then((response)=>{
+                    console.log(response);
+                }).catch((error)=>{
+                    console.log(error);
+                })
+                
+            }
         }
 
-        // console.log(postdata);
     }
 
 
     componentDidMount(){
         const {id} = this.props.match.params;
-        // console.log(id);
+        if(id){
         const uid=parseInt(id);
         const catpost = {
-            query: `getCategory($id:Int!){
-                    category(id:$id){
-                        title,
-                        description,
-                        image
-                        slug
+            query: `query getUser($id:Int!){
+                    user(id:$id){
+                        id,
+                        name,
+                        email,
+                        is_admin
                       }
                 }
             `,
@@ -189,12 +216,22 @@ class UserForm extends React.Component {
               id: uid,
             }
           }
-        //   console.log(catpost);
-        // CategoryService.get(catpost).then((response)=>{
-        //     console.log(response);
-        // }).catch((error)=>{
-        //     console.log(error);
-        // })
+        // console.log(catpost);
+        // alert('aaaayyyyy');
+        UserService.get(catpost).then((response)=>{
+            
+            console.log(response);
+            let setdata={
+                email:response.data.data.user.email,
+                name:response.data.data.user.name,
+                is_admin:response.data.data.user.is_admin
+            }
+            this.setState(setdata);
+        }).catch((error)=>{
+            // alert('yyyyyy');
+            console.log(error);
+        })
+        }
     }
 
     render () {
@@ -209,7 +246,7 @@ class UserForm extends React.Component {
                             type='text'
                             placeholder='Enter Name'
                             name='name'
-                            value={this.state.value}
+                            value={this.state.name}
                             onChange={this.handleNameChange}
                         />
                         <Alert
@@ -229,7 +266,7 @@ class UserForm extends React.Component {
                             type='email'
                             placeholder='Enter Email'
                             name='email'
-                            value={this.state.value}
+                            value={this.state.email}
                             onChange={this.handleEmailChange}
                         />
                         <Alert

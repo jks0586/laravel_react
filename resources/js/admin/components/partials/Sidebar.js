@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, BrowserRouter as Router } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
+import Collapse from 'react-bootstrap/Collapse';
 const Sidebar = props => {
     // console.log(props)
     // return props.location.pathname != '/admin/login'?(
-
+    const [postopen, setPostopenpen] = useState(false);
+    const [categoryopen, setCategoryopen] = useState(false);
+    const [useropen, setUseropen] = useState(false);
+    
     return (
         <Navbar expand={true}>
             <Container fluid>
@@ -16,25 +20,40 @@ const Sidebar = props => {
                     <Nav.Item>
                         <Nav.Link href='/admin/dahboard'>Dashbaord</Nav.Link>
                     </Nav.Item>
+
                     <Nav.Item>
-                        <Nav.Link href='/admin/categories'>Categories</Nav.Link>
+                        <Nav.Link  onClick={() => setUseropen(!useropen)} aria-controls="user"   aria-expanded={useropen}>Users</Nav.Link>
+                        <Collapse in={useropen}>
+                            <div id="user">
+                                <Nav.Link href='/admin/users/add'>Add</Nav.Link>
+                                <Nav.Link href='/admin/users'>Users</Nav.Link>
+                            </div>
+                        </Collapse>
                     </Nav.Item>
 
-                    <NavDropdown title='Dropdown' id='collasible-nav-dropdown'>
-                        <NavDropdown.Item href='#action/3.1'>
-                            Action
-                        </NavDropdown.Item>
-                        <NavDropdown.Item href='#action/3.2'>
-                            Another action
-                        </NavDropdown.Item>
-                        <NavDropdown.Item href='#action/3.3'>
-                            Something
-                        </NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href='#action/3.4'>
-                            Separated link ddddddd
-                        </NavDropdown.Item>
-                    </NavDropdown>
+
+                    <Nav.Item>
+                        <Nav.Link  onClick={() => setCategoryopen(!categoryopen)} aria-controls="category"   aria-expanded={categoryopen}>Categories</Nav.Link>
+                        <Collapse in={categoryopen}>
+                            <div id="category">
+                                <Nav.Link href='/admin/categories/add'>Add</Nav.Link>
+                                <Nav.Link href='/admin/categories'>Categories</Nav.Link>
+                            </div>
+                        </Collapse>
+                    </Nav.Item>
+                    
+                    <Nav.Item>
+                        <Nav.Link  onClick={() => setPostopenpen(!postopen)} aria-controls="example-collapse-text"   aria-expanded={postopen}>Posts</Nav.Link>
+                        <Collapse in={postopen}>
+                        <div id="example-collapse-text">
+                            <Nav.Link href='/admin/categories'>test1</Nav.Link>
+                            <Nav.Link href='/admin/categories'>test2</Nav.Link>
+                            <Nav.Link href='/admin/categories'>test3</Nav.Link>
+                            <Nav.Link href='/admin/categories'>test4</Nav.Link>
+                        </div>
+                    </Collapse>
+                    </Nav.Item>
+                    
                     <Nav.Item>
                         <Nav.Link href='#action3'>Link dddddddddddddd</Nav.Link>
                     </Nav.Item>

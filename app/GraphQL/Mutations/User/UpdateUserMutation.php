@@ -28,9 +28,21 @@ class UpdateUserMutation extends Mutation
                 'name' => 'id',
                 'type' =>  Type::nonNull(Type::int()),
             ],
-            'title' => [
-                'name' => 'title',
+            'name' => [
+                'name' => 'name',
                 'type' =>  Type::nonNull(Type::string()),
+            ],
+            'email' => [
+                'name' => 'email',
+                'type' =>  Type::nonNull(Type::string()),
+            ],
+            'password' => [
+                'name' => 'password',
+                'type' =>  Type::string(),
+            ],
+            'is_admin' => [
+                'name' => 'is_admin',
+                'type' =>  Type::nonNull(Type::int()),
             ],
         ];
     }
