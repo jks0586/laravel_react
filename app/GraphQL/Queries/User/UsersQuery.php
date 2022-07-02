@@ -22,16 +22,12 @@ class UsersQuery extends Query
 
     public function resolve($root, $args)
     {
-        $users=User::all();
-        // $users.each(function ($user, $key) {
-        //     if(!empty($user) && $key=='avtar'){
-        //         return $user;
-        //         // $type = Storage::mimeType($user->avtar);
-        //         // $contents = Storage::get($user->avtar);
+       $users=User::all()->toArray();
+    //    $users->append('avtarimage');
 
-        //         // $user->avtar='data:image/' . $type . ';base64,' .base64_encode($contents);
-        //     }
-        // });
-        return $users;
+        // echo '<pre>';
+        // print_r($users);
+        // echo '</pre>';; die;
+       return $users;
     }
 }

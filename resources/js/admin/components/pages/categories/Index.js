@@ -61,12 +61,7 @@ class CategoryList extends React.Component {
     render () {
         return (
             <Card>
-                <Audio
-                    height="100"
-                    width="100"
-                    color='grey'
-                    ariaLabel='loading'
-                />
+               
                 <Card.Header>Category list</Card.Header>
 
                 <Card.Body>

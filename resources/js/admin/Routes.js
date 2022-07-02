@@ -17,6 +17,12 @@ import ListUsers from "./components/pages/users/Index";
 import AddUser from "./components/pages/users/Add";
 import EditUser from "./components/pages/users/Edit";
 
+// products component
+
+import Products from "./components/pages/products/Index";
+import AddProduct from "./components/pages/products/Add";
+import EditProduct from "./components/pages/products/Edit";
+
 class Routes extends React.Component
 {
     render()
@@ -32,6 +38,15 @@ class Routes extends React.Component
                     <AuthenticatedRoute exact path='/admin/users' component={ListUsers} />
                     <AuthenticatedRoute path='/admin/users/add' component={AddUser} />
                     <AuthenticatedRoute path='/admin/users/edit/:id' component={EditUser} />
+
+                     {/* Product Routes  start   */}
+
+
+                    <AuthenticatedRoute exact path='/admin/products' component={Products} />
+                    <AuthenticatedRoute path='/admin/products/add' component={AddProduct} />
+                    <AuthenticatedRoute path='/admin/products/edit/:id' component={EditProduct} />
+
+                     {/* Product Routes  end  */}
 
                     {/* <Route exact path='/admin/' component={Dashboard} />
                     <Route exact path='/admin/posts' component={ListPosts} />

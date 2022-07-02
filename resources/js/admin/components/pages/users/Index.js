@@ -42,14 +42,16 @@ class ListUsers extends React.Component {
 
     componentDidMount () {
         this.setState({'isLoading':true});
-        const qry = `{users{id,name,email,avtar,is_admin}}`
+        const qry = `{users{id,name,email,avtar,is_admin,avtarimage}}`
         UserService.listAll(qry)
             .then(response => {
+                console.log(response.data.data);
                 this.setState({ users: response.data.data.users })
                 this.setState({'isLoading':false});
             })
             .catch(error => {
-                console.log(error)
+                console.log(error);
+                this.setState({'isLoading':false});
             })
     }
 
@@ -90,7 +92,7 @@ class ListUsers extends React.Component {
                                         {object.email}
                                         </th>
                                         <th>
-                                        <img src={object.avtar} width="50" height="50" />
+                                        <img src={object.avtarimage} width="50" height="50" />
                                         </th>
                                         <th>{object.is_admin}</th>
                                         <th>

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -24,6 +25,8 @@ class User extends Authenticatable
         'password',
         'is_admin',
     ];
+
+    protected $appends = ["avtarimage"];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -54,5 +57,16 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class, 'user_id');
     }
 
+
+    public function getAvtarimageAttribute(){
+        // return $this->avtar;
+        if(!empty($this->avtar)){
+            $type = Storage::mimeType($this->avtar);
+            $contents = Storage::get($this->avtar);
+            return 'data:image/' . $type . ';base64,' .base64_encode($contents);
+        } else {
+            return 'hjhggjh';
+        }
+    }
 
 }

@@ -44,6 +44,10 @@ class UserType extends GraphQLType
                 'type' => Type::nonNull(Type::int()),
                 'description' => 'Is Admin'
             ],
+            'avtarimage' => [
+                'type' => Type::string(),
+                'description' => 'Image'
+            ],
         ];
     }
 }
