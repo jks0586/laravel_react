@@ -7,11 +7,14 @@ import { Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil,faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Audio } from  'react-loader-spinner';
+import { Oval } from  'react-loader-spinner';
 class ListUsers extends React.Component {
     constructor (props) {
         super(props)
-        this.state = { users: [] }
+        this.state = {
+            users: [],
+            isLoading:false,
+         }
         // this.titleonChange = this.titleonChange.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
     }
@@ -38,11 +41,12 @@ class ListUsers extends React.Component {
     }
 
     componentDidMount () {
-        const qry = `{users{id,name,email,is_admin}}`
+        this.setState({'isLoading':true});
+        const qry = `{users{id,name,email,avtar,is_admin}}`
         UserService.listAll(qry)
             .then(response => {
                 this.setState({ users: response.data.data.users })
-
+                this.setState({'isLoading':false});
             })
             .catch(error => {
                 console.log(error)
@@ -51,6 +55,17 @@ class ListUsers extends React.Component {
 
     render () {
         return (
+            <>
+            {this.state.isLoading ?
+                <Oval
+                    ariaLabel='loading-indicator'
+                    height={100}
+                    width={100}
+                    strokeWidth={5}
+                    color='red'
+                    secondaryColor='yellow'
+                />
+                :null}
             <Card>
                 <Card.Header>Users list</Card.Header>
                 <Card.Body>
@@ -59,6 +74,7 @@ class ListUsers extends React.Component {
                             <tr key='head'>
                                 <th>#</th>
                                 <th>Title</th>
+                                <th>Email</th>
                                 <th>Image</th>
                                 <th>Is Admin</th>
                                 <th>Action</th>
@@ -73,6 +89,9 @@ class ListUsers extends React.Component {
                                         <th>
                                         {object.email}
                                         </th>
+                                        <th>
+                                        <img src={object.avtar} width="50" height="50" />
+                                        </th>
                                         <th>{object.is_admin}</th>
                                         <th>
                                         <Link to={`/admin/users/edit/${object.id}`}><FontAwesomeIcon icon={faPencil} /></Link> | <FontAwesomeIcon icon={faTrash} data-key={object.id}  onClick={this.handleDelete} />
@@ -84,6 +103,7 @@ class ListUsers extends React.Component {
                     </Table>
                 </Card.Body>
             </Card>
+            </>
         )
     }
 }

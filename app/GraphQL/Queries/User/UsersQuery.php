@@ -1,6 +1,6 @@
 <?php
 
-// app/graphql/queries/user/UserQuery 
+// app/graphql/queries/user/UserQuery
 
 namespace App\GraphQL\Queries\User;
 
@@ -22,6 +22,16 @@ class UsersQuery extends Query
 
     public function resolve($root, $args)
     {
-        return User::all();
+        $users=User::all();
+        // $users.each(function ($user, $key) {
+        //     if(!empty($user) && $key=='avtar'){
+        //         return $user;
+        //         // $type = Storage::mimeType($user->avtar);
+        //         // $contents = Storage::get($user->avtar);
+
+        //         // $user->avtar='data:image/' . $type . ';base64,' .base64_encode($contents);
+        //     }
+        // });
+        return $users;
     }
 }

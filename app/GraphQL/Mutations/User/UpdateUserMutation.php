@@ -1,9 +1,9 @@
 <?php
 
-// app/graphql/mutations/user/UpdateUserMutation 
+// app/graphql/mutations/user/UpdateUserMutation
 
 namespace App\GraphQL\Mutations\User;
-
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -46,14 +46,32 @@ class UpdateUserMutation extends Mutation
             ],
             'is_admin' => [
                 'name' => 'is_admin',
-                'type' =>  Type::nonNull(Type::int()),
+                'type' =>  Type::int(),
             ],
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, array $args)
     {
+        // echo '<pre>';
+        // print_r($root);
+        if(!empty($args['avtar'])){
+            $extension = explode('/', explode(':', substr($args['avtar'], 0, strpos($args['avtar'], ';')))[1])[1];
+            $file_name='avtar/user-'.time().'.'.$extension;
+
+            $data = substr($args['avtar'], strpos($args['avtar'], ',') + 1);
+            $data = base64_decode($data);
+
+            Storage::put($file_name, $data);
+            $args['avtar']=$file_name;
+        }
+
+        // echo '<pre>';
+        // print_r($args);
+        // echo '</pre>';
+
         $User = User::findOrFail($args['id']);
+
         $User->fill($args);
         $User->save();
 

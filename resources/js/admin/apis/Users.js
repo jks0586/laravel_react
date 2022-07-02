@@ -5,7 +5,8 @@ const UserService = {
         return await Api.get('/graphql?query='+req);
     },
     add: async (req) => {
-        // alert('title');
+        // console.log('jitendra',req);
+
         return await Api.post('/graphql',req)
         // return await Api.letres(Api.post('/graphql',req))
     },

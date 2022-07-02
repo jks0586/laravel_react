@@ -3,7 +3,7 @@
 // app/graphql/mutations/user/CreateUserMutation
 
 namespace App\GraphQL\Mutations\User;
-
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use Rebing\GraphQL\Support\Mutation;
 use GraphQL\Type\Definition\Type;
@@ -42,14 +42,24 @@ class CreateUserMutation extends Mutation
             ],
             'is_admin' => [
                 'name' => 'is_admin',
-                'type' =>  Type::nonNull(Type::int()),
+                'type' =>  Type::int(),
             ],
         ];
     }
 
     public function resolve($root, $args)
     {
-        echo '<pre>'; print_r($args);echo '</pre>'; die;
+        // echo '<pre>'; print_r($args);echo '</pre>'; die;
+        if(!empty($args['avtar'])){
+            $extension = explode('/', explode(':', substr($args['avtar'], 0, strpos($args['avtar'], ';')))[1])[1];
+            $file_name='avtar/user-'.time().'.'.$extension;
+
+            $data = substr($args['avtar'], strpos($args['avtar'], ',') + 1);
+            $data = base64_decode($data);
+
+            Storage::put($file_name, $data);
+            $args['avtar']=$file_name;
+        }
         $user = new User();
         $user->fill($args);
         $user->save();
