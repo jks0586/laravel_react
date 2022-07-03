@@ -12,10 +12,11 @@ import Table from 'react-bootstrap/Table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil,faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Audio } from  'react-loader-spinner';
+import Loading from 'react-fullscreen-loading';
 class CategoryList extends React.Component {
     constructor (props) {
         super(props)
-        this.state = { categories: [] }
+        this.state = { categories: [],loading:false }
 
         // this.titleonChange = this.titleonChange.bind(this);
 
@@ -44,10 +45,11 @@ class CategoryList extends React.Component {
     }
 
     componentDidMount () {
+        this.setState({loading:true});
         const qry = `{categories{id,title,image,slug}}`
         CategoryService.listAll(qry)
             .then(response => {
-                this.setState({ categories: response.data.data.categories })
+                this.setState({ categories: response.data.data.categories,loading:false })
 
             })
             .catch(error => {
@@ -61,7 +63,7 @@ class CategoryList extends React.Component {
     render () {
         return (
             <Card>
-               
+                <Loading loading={this.state.loading} background="#2ecc71" loaderColor="#3498db" />
                 <Card.Header>Category list</Card.Header>
 
                 <Card.Body>
