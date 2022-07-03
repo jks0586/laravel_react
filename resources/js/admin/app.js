@@ -10,7 +10,12 @@ const classcontainer={'left_class':'col-md-2','right_class':'col-md-10'};
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export default class App extends React.Component {
-
+    constructor(props){
+        super(props);
+        this.props={
+            test:'this is test for jitendra'
+        }
+    }
     render () {
         return (
 

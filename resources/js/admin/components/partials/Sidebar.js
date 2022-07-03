@@ -26,8 +26,7 @@ const Sidebar = (props) => {
                 <Nav className="flex-column">
                     <Nav.Item>
                         <Nav.Link href="/admin/dahboard">    
-                            <FontAwesomeIcon icon={faGripHorizontal} />
-                            Dashbaord
+                            <FontAwesomeIcon icon={faGripHorizontal} /> Dashbaord
                         </Nav.Link>
                     </Nav.Item>
 

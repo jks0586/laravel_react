@@ -68,13 +68,13 @@ class ProductForm extends React.Component {
         e.preventDefault();
     }
     handlePriceChange(e) {
-        this.setState({ prcie: e.target.value });
+        this.setState({ price: e.target.value });
         delete this.state.formErrors["price"];
         e.preventDefault();
     }
 
     handleSalePriceChange(e) {
-        this.setState({ sale_prcie: e.target.value });
+        this.setState({ sale_price: e.target.value });
         delete this.state.formErrors["sale_price"];
         e.preventDefault();
     }
@@ -134,12 +134,12 @@ class ProductForm extends React.Component {
     }
 
     handleImageChange(e) {
-        this.setState({ avtar: e.target.files[0] });
+        this.setState({ image: e.target.files[0] });
         this.previewFile(e.target.files[0]);
-        delete this.state.formErrors["avtar"];
+        delete this.state.formErrors["image"];
 
         setTimeout(function () {
-            let imgset = document.getElementById("avtarPreview");
+            let imgset = document.getElementById("imagePreview");
             // this.setState({title : imgset.getAttribute('src')})
         }, 1000);
 
@@ -153,67 +153,123 @@ class ProductForm extends React.Component {
         }
 
         reader.onloadend = function (e) {
-            let imgset = document.getElementById("avtarPreview");
+            let imgset = document.getElementById("imagePreview");
             imgset.setAttribute("src", reader.result);
             imgset.setAttribute("width", 50);
             imgset.setAttribute("height", 50);
             //
-            this.setState({ avtarPreview: reader.result });
+            this.setState({ imagePreview: reader.result });
         }.bind(this);
     }
 
-    userValidate(e) {
-        // console.log(this.state);
+    productValidate(e) {
+        console.log(this.state);
         const { id } = this.props.match.params;
         let fieldValidationErrors = this.state.formErrors;
         Object.keys(this.state).forEach((value, index) => {
             switch (value) {
                 case "name":
-                    if (
-                        value == "name" &&
-                        (this.state[value] == "" ||
-                            this.state[value] == undefined)
+                    if (value == "name" && (this.state[value] == "" || this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] =
-                            value.charAt(0).toUpperCase() +
-                            value.slice(1) +
-                            " Field could not be empty";
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
                     }
                     break;
 
-                case "email":
-                    if (
-                        value == "email" &&
-                        (this.state[value] == "" ||
-                            this.state[value] == undefined)
+                case "slug":
+                    if (value == "slug" && (this.state[value] == "" || this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] =
-                            value.charAt(0).toUpperCase() +
-                            value.slice(1) +
-                            " Field could not be empty";
-                    } else {
-                        let email = this.state[value];
-                        // console.log(email,'aaaaauuuuu');
-                        // if (validator.isEmail(email)) {
-                        //     fieldValidationErrors[value] = '';
-                        // } else {
-                        //     fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) + ' is Not valid';
-                        // }
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
                     }
-                    break;
-                case "password":
-                    if (
-                        value == "password" &&
-                        (id == "" || id == undefined) &&
-                        (this.state[value] == "" ||
-                            this.state[value] == undefined)
+                break;
+                
+                case "description":
+                    if (value == "description" && (this.state[value] == "" || this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] =
-                            value.charAt(0).toUpperCase() +
-                            value.slice(1) +
-                            " Field could not be empty";
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
                     }
-                    break;
+                break;
+
+                case "price":
+                    if (value == "price" && (this.state[value] == "" || this.state[value] == undefined)
+                    ) {
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                    }
+                break;
+                
+                case "sale_price":
+                    if (value == "sale_price" && (this.state[value] == "" || this.state[value] == undefined)
+                    ) {
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                    }
+                break;
+                case "sku":
+                    if (value == "sku" && (this.state[value] == "" || this.state[value] == undefined)
+                    ) {
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                    }
+                break;
+
+                case "quantity":
+                    if (value == "quantity" && (this.state[value] == "" || this.state[value] == undefined)
+                    ) {
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                    }
+                break;
+                case "in_stock":
+                    if (value == "in_stock" && (this.state[value] == "" || this.state[value] == undefined)
+                    ) {
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                    }
+                break;
+                case "is_taxable":
+                    if (value == "is_taxable" && (this.state[value] == "" || this.state[value] == undefined)
+                    ) {
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                    }
+                break;
+                case "image":
+                    if (value == "image" && (this.state[value] == "" || this.state[value] == undefined)
+                    ) {
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                    }
+                break;
+                case "category_id":
+                    if (value == "category_id" && (this.state[value] == "" || this.state[value] == undefined)
+                    ) {
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                    }
+                break;
+                case "status":
+                    if (value == "status" && (this.state[value] == "" || this.state[value] == undefined)
+                    ) {
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                    }
+                break;
+                case "status":
+                    if (value == "status" && (this.state[value] == "" || this.state[value] == undefined)
+                    ) {
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                    }
+                break;
+                case "meta_title":
+                    if (value == "meta_title" && (this.state[value] == "" || this.state[value] == undefined)
+                    ) {
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                    }
+                break;
+                case "meta_keyword":
+                    if (value == "meta_keyword" && (this.state[value] == "" || this.state[value] == undefined)
+                    ) {
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                    }
+                break;
+                case "meta_description":
+                    if (value == "meta_description" && (this.state[value] == "" || this.state[value] == undefined)
+                    ) {
+                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                    }
+                break;
+                
             }
             // console.log(value,this.state[value]);
         });
@@ -236,7 +292,7 @@ class ProductForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         const { id } = this.props.match.params;
-        if (this.userValidate(e)) {
+        if (this.productValidate(e)) {
             console.log(this.state);
             const postdata = {};
             Object.keys(this.state).forEach((value, index) => {
@@ -324,6 +380,7 @@ class ProductForm extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props)
         const { id } = this.props.match.params;
         if (id) {
             const uid = parseInt(id);
@@ -367,6 +424,7 @@ class ProductForm extends React.Component {
         // const { id } = this.props.match.params;
         return (
             // const { userName } = this.props.match.params;
+           
             <>
                 <Loading
                     loading={this.state.loading}
