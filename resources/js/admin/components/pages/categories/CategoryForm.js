@@ -182,6 +182,7 @@ class CategoryForm extends React.Component {
             //   console.log(catpost);
             CategoryService.add(catpost).then((response)=>{
                 // console.log(response);
+                this.props.history.push("/admin/categories");
             }).catch((error)=>{
                 console.log(error);
             })
