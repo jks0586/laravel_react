@@ -6,11 +6,12 @@ import Alert from "react-bootstrap/Alert";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import UserService from "../../../apis/Users";
+import CategoryService from "./../../../apis/Category";
 import { request, gql } from "graphql-request";
 import { withRouter } from "react-router-dom";
 import validator from "validator";
 import Loading from "react-fullscreen-loading";
-const statusOptions={'submit':'submit','draft':'draft'};
+import Settings from "../../partials/settings";
 
 class ProductForm extends React.Component {
     constructor(props) {
@@ -23,8 +24,8 @@ class ProductForm extends React.Component {
             sale_price: "",
             sku: "",
             quantity: "",
-            in_stock: "",
-            is_taxable: "",
+            in_stock: false,
+            is_taxable: false,
             image: "",
             imagepreview: "",
             category_id: "",
@@ -33,6 +34,7 @@ class ProductForm extends React.Component {
             meta_title: "",
             meta_keyword: "",
             meta_description: "",
+            categories: [],
             formErrors: {},
             isLoading: false,
         };
@@ -68,13 +70,26 @@ class ProductForm extends React.Component {
         e.preventDefault();
     }
     handlePriceChange(e) {
-        this.setState({ price: e.target.value });
+        if (Settings.checkNumber(e.target.value)) {
+            this.setState({ price: e.target.value });
+        } else {
+            let fieldValidationErrors = this.state.formErrors;
+            fieldValidationErrors["price"] = "Price Field could not be empty";
+            this.setState({ formErrors: fieldValidationErrors });
+        }
         delete this.state.formErrors["price"];
         e.preventDefault();
     }
 
     handleSalePriceChange(e) {
-        this.setState({ sale_price: e.target.value });
+        if (Settings.checkNumber(e.target.value)) {
+            this.setState({ sale_price: e.target.value });
+        } else {
+            let fieldValidationErrors = this.state.formErrors;
+            fieldValidationErrors["sale_price"] =
+                "Price Field could not be empty";
+            this.setState({ formErrors: fieldValidationErrors });
+        }
         delete this.state.formErrors["sale_price"];
         e.preventDefault();
     }
@@ -92,13 +107,23 @@ class ProductForm extends React.Component {
     }
 
     handleInStockChange(e) {
-        this.setState({ in_stock: e.target.value });
-        delete this.state.formErrors["is_stock"];
+        // console.log(e.target.checked);
+        if(e.target.checked){
+            this.setState({ in_stock: true });
+        } else {
+            this.setState({ in_stock: false });
+        }
+        delete this.state.formErrors["in_stock"];
+        // console.log(this.state);
         e.preventDefault();
     }
 
     handleIsTaxableChange(e) {
-        this.setState({ is_taxable: e.target.value });
+        if(e.target.checked){
+        this.setState({ is_taxable: true });
+        } else {
+        this.setState({ is_taxable: false });
+        }
         delete this.state.formErrors["is_taxable"];
         e.preventDefault();
     }
@@ -108,7 +133,7 @@ class ProductForm extends React.Component {
         delete this.state.formErrors["category_id"];
         e.preventDefault();
     }
-    
+
     handleMetaTitleChange(e) {
         this.setState({ meta_title: e.target.value });
         delete this.state.formErrors["meta_title"];
@@ -163,113 +188,232 @@ class ProductForm extends React.Component {
     }
 
     productValidate(e) {
-        console.log(this.state);
+        // console.log(this.state);
         const { id } = this.props.match.params;
         let fieldValidationErrors = this.state.formErrors;
         Object.keys(this.state).forEach((value, index) => {
             switch (value) {
                 case "name":
-                    if (value == "name" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "name" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
                     break;
 
                 case "slug":
-                    if (value == "slug" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "slug" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
-                
+                    break;
+
                 case "description":
-                    if (value == "description" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "description" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
+                    break;
 
                 case "price":
-                    if (value == "price" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "price" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
+                    } else if (
+                        !Settings.checkNumber(e.target.value) &&
+                        !Settings.checkNumber(e.target.value) == "NaN"
+                    ) {
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
-                
+                    break;
+
                 case "sale_price":
-                    if (value == "sale_price" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "sale_price" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
+                    } else if (
+                        !Settings.checkNumber(e.target.value) &&
+                        !Settings.checkNumber(e.target.value) == "NaN"
+                    ) {
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
+                    break;
                 case "sku":
-                    if (value == "sku" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "sku" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
+                    break;
 
                 case "quantity":
-                    if (value == "quantity" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "quantity" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
+                    } else if (
+                        !Settings.checkQuantity(e.target.value) &&
+                        !Settings.checkQuantity(e.target.value) == "NaN"
+                    ) {
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
+                    break;
                 case "in_stock":
-                    if (value == "in_stock" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "in_stock" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
+                    break;
                 case "is_taxable":
-                    if (value == "is_taxable" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "is_taxable" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
+                    break;
                 case "image":
-                    if (value == "image" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "image" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
+                    break;
                 case "category_id":
-                    if (value == "category_id" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "category_id" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
+                    break;
                 case "status":
-                    if (value == "status" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "status" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
+                    break;
                 case "status":
-                    if (value == "status" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "status" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
+                    break;
                 case "meta_title":
-                    if (value == "meta_title" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "meta_title" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
+                    break;
                 case "meta_keyword":
-                    if (value == "meta_keyword" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "meta_keyword" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
+                    break;
                 case "meta_description":
-                    if (value == "meta_description" && (this.state[value] == "" || this.state[value] == undefined)
+                    if (
+                        value == "meta_description" &&
+                        (this.state[value] == "" ||
+                            this.state[value] == undefined)
                     ) {
-                        fieldValidationErrors[value] = value.charAt(0).toUpperCase() + value.slice(1) +" Field could not be empty";
+                        fieldValidationErrors[value] =
+                            value.charAt(0).toUpperCase() +
+                            value.slice(1) +
+                            " Field could not be empty";
                     }
-                break;
-                
+                    break;
             }
             // console.log(value,this.state[value]);
         });
@@ -298,89 +442,105 @@ class ProductForm extends React.Component {
             Object.keys(this.state).forEach((value, index) => {
                 postdata[value] = this.state[value];
             });
-            if (id) {
-                this.setState({ isLoading: true });
-                
-                const catpost = {
-                    query: `mutation updateUser($id: Int!,$name: String!, $email: String!,$avtar: String,$password: String,  $is_admin: Int) {
-                        updateUser(id:$id,name: $name,email: $email,avtar:$avtar,password:$password,is_admin: $is_admin){
-                            id,
-                            name,
-                            email,
-                            avtar,
-                            password,
-                            is_admin
-                        }
-                    }`,
-                    variables: {
-                        id: parseInt(id),
-                        name: postdata.name,
-                        email: postdata.email,
-                        avtar: postdata.avtarPreview,
-                        password: postdata.password,
-                        is_admin: parseInt(postdata.is_admin),
-                        isLoading: false,
-                    },
-                };
+            // console.log(postdata);
+            // if (id) {
+            //     this.setState({ isLoading: true });
 
-                // console.log(catpost);
+            //     const catpost = {
+            //         query: `mutation updateUser($id: Int!,$name: String!, $email: String!,$avtar: String,$password: String,  $is_admin: Int) {
+            //             updateUser(id:$id,name: $name,email: $email,avtar:$avtar,password:$password,is_admin: $is_admin){
+            //                 id,
+            //                 name,
+            //                 email,
+            //                 avtar,
+            //                 password,
+            //                 is_admin
+            //             }
+            //         }`,
+            //         variables: {
+            //             id: parseInt(id),
+            //             name: postdata.name,
+            //             email: postdata.email,
+            //             avtar: postdata.avtarPreview,
+            //             password: postdata.password,
+            //             is_admin: parseInt(postdata.is_admin),
+            //             isLoading: false,
+            //         },
+            //     };
 
-                UserService.add(catpost)
-                    .then((response) => {
-                        if (
-                            response.status == 200 &&
-                            (response.data.data.error == undefined ||
-                                response.data.data.error == "")
-                        ) {
-                            this.setState({ isLoading: false });
-                            this.props.history.push("/admin/users");
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            } else {
-                this.setState({ isLoading: true });
-                const catpost = {
-                    query: `mutation createUser($name: String!, $email: String!, $avtar: String,$password: String!, $is_admin: Int) {
-                        createUser(name: $name,email: $email,avtar: $avtar,password: $password,is_admin: $is_admin){
-                            name,
-                            email,
-                            avtar,
-                            password,
-                            is_admin
-                        }
-                    }`,
-                    variables: {
-                        name: postdata.name,
-                        email: postdata.email,
-                        password: postdata.password,
-                        avtar: postdata.avtarPreview,
-                        is_admin: parseInt(postdata.is_admin),
-                        isLoading: false,
-                    },
-                };
+            //     // console.log(catpost);
 
-                UserService.add(catpost)
-                    .then((response) => {
-                        if (
-                            response.status == 200 &&
-                            (response.data.data.error == undefined ||
-                                response.data.data.error == "")
-                        ) {
-                            this.setState({ isLoading: false });
-                            this.props.history.push("/admin/users");
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            }
+            //     UserService.add(catpost)
+            //         .then((response) => {
+            //             if (
+            //                 response.status == 200 &&
+            //                 (response.data.data.error == undefined ||
+            //                     response.data.data.error == "")
+            //             ) {
+            //                 this.setState({ isLoading: false });
+            //                 this.props.history.push("/admin/users");
+            //             }
+            //         })
+            //         .catch((error) => {
+            //             console.log(error);
+            //         });
+            // } else {
+            //     this.setState({ isLoading: true });
+            //     const catpost = {
+            //         query: `mutation createUser($name: String!, $email: String!, $avtar: String,$password: String!, $is_admin: Int) {
+            //             createUser(name: $name,email: $email,avtar: $avtar,password: $password,is_admin: $is_admin){
+            //                 name,
+            //                 email,
+            //                 avtar,
+            //                 password,
+            //                 is_admin
+            //             }
+            //         }`,
+            //         variables: {
+            //             name: postdata.name,
+            //             email: postdata.email,
+            //             password: postdata.password,
+            //             avtar: postdata.avtarPreview,
+            //             is_admin: parseInt(postdata.is_admin),
+            //             isLoading: false,
+            //         },
+            //     };
+
+            //     UserService.add(catpost)
+            //         .then((response) => {
+            //             if (
+            //                 response.status == 200 &&
+            //                 (response.data.data.error == undefined ||
+            //                     response.data.data.error == "")
+            //             ) {
+            //                 this.setState({ isLoading: false });
+            //                 this.props.history.push("/admin/users");
+            //             }
+            //         })
+            //         .catch((error) => {
+            //             console.log(error);
+            //         });
+            // }
         }
     }
 
     componentDidMount() {
-        console.log(this.props)
+        // const x='64g';
+        // console.log(Settings.checkNumber(x));
+
+        const qry = `{categories{id,title}}`;
+        CategoryService.listAll(qry)
+            .then((response) => {
+                this.setState({
+                    categories: response.data.data.categories,
+                    loading: false,
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        // console.log(Object.values(Settings.status));
         const { id } = this.props.match.params;
         if (id) {
             const uid = parseInt(id);
@@ -414,7 +574,6 @@ class ProductForm extends React.Component {
                     this.setState(setdata);
                 })
                 .catch((error) => {
-                    // alert('yyyyyy');
                     console.log(error);
                 });
         }
@@ -424,7 +583,7 @@ class ProductForm extends React.Component {
         // const { id } = this.props.match.params;
         return (
             // const { userName } = this.props.match.params;
-           
+
             <>
                 <Loading
                     loading={this.state.loading}
@@ -447,9 +606,6 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["name"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please fill user name
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formSlug">
@@ -467,9 +623,6 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["slug"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please fill user slug
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formDescription">
@@ -508,9 +661,6 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["description"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please Fill Description
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formPrice">
@@ -528,9 +678,6 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["price"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please fill price
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formSalePrice">
@@ -552,9 +699,6 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["sale_price"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please fill Sale Price
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formSku">
@@ -572,9 +716,6 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["sku"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please fill Sku
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formQuantity">
@@ -594,20 +735,18 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["quantity"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please fill Quantity
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formIn_stock">
-                        <Form.Label>In Stock</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter In stock"
+                        
+                        <Form.Check
+                            type="checkbox"
                             name="in_stock"
-                            value={this.state.in_stock}
+                            id="in_stock"
+                            label="IN Stock"
                             onChange={this.handleInStockChange}
                         />
+                        
                         <Alert
                             show={
                                 this.state.formErrors["in_stock"] ? true : false
@@ -616,20 +755,18 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["in_stock"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please fill In stock
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formIs_taxable">
-                        <Form.Label>is Taxable</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Is Taxable"
+                        
+                        <Form.Check
+                            type="checkbox"
                             name="is_taxable"
-                            value={this.state.is_taxable}
+                            id="is_taxable"
+                            label="Is Taxable"
                             onChange={this.handleIsTaxableChange}
                         />
+                        
                         <Alert
                             show={
                                 this.state.formErrors["is_taxable"]
@@ -640,9 +777,6 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["is_taxable"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please fill Is Taxable
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formImage">
@@ -665,22 +799,25 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["image"]}
                         </Alert>
-                        <div className="clearfix"></div>
-
-                        <Form.Text className="text-muted">
-                            Please select image
-                        </Form.Text>
                     </Form.Group>
-
                     <Form.Group className="mb-3" controlId="formCategory_id">
                         <Form.Label>Category</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Categroy"
+                        <Form.Select
+                            aria-label="Enter Categroy"
                             name="category_id"
-                            value={this.state.category_id}
+                            id="category_id"
                             onChange={this.handleCategoryIdChange}
-                        />
+                        >
+                            <option>Select Category</option>
+                            {this.state.categories.map((category, index) => {
+                                return (
+                                    <option key={index} value={category.id}>
+                                        {category.title}
+                                    </option>
+                                );
+                            })}
+                        </Form.Select>
+
                         <Alert
                             show={
                                 this.state.formErrors["category_id"]
@@ -691,9 +828,6 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["category_id"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please fill category id
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formMetatitle">
@@ -715,9 +849,6 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["meta_title"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please fill Meta Title
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formMetatitle">
@@ -739,9 +870,6 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["meta_keyword"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please fill Meta Keyword
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formMetatitle">
@@ -763,22 +891,24 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["meta_description"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please fill Meta Description
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formStatus">
-                        
                         <Form.Label>Status</Form.Label>
-                        <Form.Select aria-label="Default select example">
-                            <option>Select Status</option>
-                            {
-                            Object.keys(statusOptions).map((status,index)=>{
-                                return ( <option key={index} value={status}>{status.charAt(0).toUpperCase()+status.slice(1)}</option>)
-                            })
-                            }
-                            
+                        <Form.Select
+                            aria-label="Default select example"
+                            onChange={this.handleStatusChange}
+                        >
+                            <option value="">Select Status</option>
+                            {Object.keys(Settings.status).map(
+                                (status, index) => {
+                                    return (
+                                        <option key={index} value={status}>
+                                            {Settings.status[status]}
+                                        </option>
+                                    );
+                                }
+                            )}
                         </Form.Select>
                         <Alert
                             show={
@@ -788,9 +918,6 @@ class ProductForm extends React.Component {
                         >
                             {this.state.formErrors["status"]}
                         </Alert>
-                        <Form.Text className="text-muted">
-                            Please Select Status
-                        </Form.Text>
                     </Form.Group>
 
                     <Button variant="primary" type="submit">
