@@ -437,90 +437,90 @@ class ProductForm extends React.Component {
         e.preventDefault();
         const { id } = this.props.match.params;
         if (this.productValidate(e)) {
-            console.log(this.state);
+            // console.log(this.state);
             const postdata = {};
             Object.keys(this.state).forEach((value, index) => {
                 postdata[value] = this.state[value];
             });
             // console.log(postdata);
-            // if (id) {
-            //     this.setState({ isLoading: true });
+            if (id) {
+                this.setState({ isLoading: true });
 
-            //     const catpost = {
-            //         query: `mutation updateUser($id: Int!,$name: String!, $email: String!,$avtar: String,$password: String,  $is_admin: Int) {
-            //             updateUser(id:$id,name: $name,email: $email,avtar:$avtar,password:$password,is_admin: $is_admin){
-            //                 id,
-            //                 name,
-            //                 email,
-            //                 avtar,
-            //                 password,
-            //                 is_admin
-            //             }
-            //         }`,
-            //         variables: {
-            //             id: parseInt(id),
-            //             name: postdata.name,
-            //             email: postdata.email,
-            //             avtar: postdata.avtarPreview,
-            //             password: postdata.password,
-            //             is_admin: parseInt(postdata.is_admin),
-            //             isLoading: false,
-            //         },
-            //     };
+                const catpost = {
+                    query: `mutation updateUser($id: Int!,$name: String!, $email: String!,$avtar: String,$password: String,  $is_admin: Int) {
+                        updateUser(id:$id,name: $name,email: $email,avtar:$avtar,password:$password,is_admin: $is_admin){
+                            id,
+                            name,
+                            email,
+                            avtar,
+                            password,
+                            is_admin
+                        }
+                    }`,
+                    variables: {
+                        id: parseInt(id),
+                        name: postdata.name,
+                        email: postdata.email,
+                        avtar: postdata.avtarPreview,
+                        password: postdata.password,
+                        is_admin: parseInt(postdata.is_admin),
+                        isLoading: false,
+                    },
+                };
 
-            //     // console.log(catpost);
+                // console.log(catpost);
 
-            //     UserService.add(catpost)
-            //         .then((response) => {
-            //             if (
-            //                 response.status == 200 &&
-            //                 (response.data.data.error == undefined ||
-            //                     response.data.data.error == "")
-            //             ) {
-            //                 this.setState({ isLoading: false });
-            //                 this.props.history.push("/admin/users");
-            //             }
-            //         })
-            //         .catch((error) => {
-            //             console.log(error);
-            //         });
-            // } else {
-            //     this.setState({ isLoading: true });
-            //     const catpost = {
-            //         query: `mutation createUser($name: String!, $email: String!, $avtar: String,$password: String!, $is_admin: Int) {
-            //             createUser(name: $name,email: $email,avtar: $avtar,password: $password,is_admin: $is_admin){
-            //                 name,
-            //                 email,
-            //                 avtar,
-            //                 password,
-            //                 is_admin
-            //             }
-            //         }`,
-            //         variables: {
-            //             name: postdata.name,
-            //             email: postdata.email,
-            //             password: postdata.password,
-            //             avtar: postdata.avtarPreview,
-            //             is_admin: parseInt(postdata.is_admin),
-            //             isLoading: false,
-            //         },
-            //     };
+                UserService.add(catpost)
+                    .then((response) => {
+                        if (
+                            response.status == 200 &&
+                            (response.data.data.error == undefined ||
+                                response.data.data.error == "")
+                        ) {
+                            this.setState({ isLoading: false });
+                            this.props.history.push("/admin/users");
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else {
+                this.setState({ isLoading: true });
+                const catpost = {
+                    query: `mutation createUser($name: String!, $email: String!, $avtar: String,$password: String!, $is_admin: Int) {
+                        createUser(name: $name,email: $email,avtar: $avtar,password: $password,is_admin: $is_admin){
+                            name,
+                            email,
+                            avtar,
+                            password,
+                            is_admin
+                        }
+                    }`,
+                    variables: {
+                        name: postdata.name,
+                        email: postdata.email,
+                        password: postdata.password,
+                        avtar: postdata.avtarPreview,
+                        is_admin: parseInt(postdata.is_admin),
+                        isLoading: false,
+                    },
+                };
 
-            //     UserService.add(catpost)
-            //         .then((response) => {
-            //             if (
-            //                 response.status == 200 &&
-            //                 (response.data.data.error == undefined ||
-            //                     response.data.data.error == "")
-            //             ) {
-            //                 this.setState({ isLoading: false });
-            //                 this.props.history.push("/admin/users");
-            //             }
-            //         })
-            //         .catch((error) => {
-            //             console.log(error);
-            //         });
-            // }
+                UserService.add(catpost)
+                    .then((response) => {
+                        if (
+                            response.status == 200 &&
+                            (response.data.data.error == undefined ||
+                                response.data.data.error == "")
+                        ) {
+                            this.setState({ isLoading: false });
+                            this.props.history.push("/admin/users");
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
         }
     }
 
@@ -586,7 +586,7 @@ class ProductForm extends React.Component {
 
             <>
                 <Loading
-                    loading={this.state.loading}
+                    loading={this.state.isLoading}
                     background="#00000000"
                     loaderColor="#ffffff"
                 />

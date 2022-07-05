@@ -1,6 +1,6 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card'
-import UserForm from './Form';
+import ProductForm from './Form';
 class AddProduct extends React.Component {
     constructor (props) {
         super(props)
@@ -9,9 +9,9 @@ class AddProduct extends React.Component {
     render () {
         return (
             <Card>
-                <Card.Header>Create User</Card.Header>
+                <Card.Header>Create Product</Card.Header>
                 <Card.Body>
-                    <UserForm />
+                    <ProductForm />
                 </Card.Body>
             </Card>
         )
