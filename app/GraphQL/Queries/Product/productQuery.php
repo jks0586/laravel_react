@@ -1,6 +1,6 @@
 <?php
 
-// app/graphql/queries/user/UserQuery
+// app/graphql/queries/Prduct/ProductQuery
 
 namespace App\GraphQL\Queries\User;
 

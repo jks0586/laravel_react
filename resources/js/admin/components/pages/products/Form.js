@@ -7,6 +7,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import UserService from "../../../apis/Users";
 import CategoryService from "./../../../apis/Category";
+import ProductService from "../../../apis/Product";
 import { request, gql } from "graphql-request";
 import { withRouter } from "react-router-dom";
 import validator from "validator";
@@ -447,14 +448,25 @@ class ProductForm extends React.Component {
                 this.setState({ isLoading: true });
 
                 const catpost = {
-                    query: `mutation updateUser($id: Int!,$name: String!, $email: String!,$avtar: String,$password: String,  $is_admin: Int) {
-                        updateUser(id:$id,name: $name,email: $email,avtar:$avtar,password:$password,is_admin: $is_admin){
+                    query: `mutation updateProduct($name: String!, $slug: String!, $description: String,$price: String!, $sale_price: String,$sku: String,$quantity: Int,$in_stock: Int,$is_taxable: Int,$image: String!,$catgeory_id: Int,$status: Int,$views: Int,$met_title: String!,$meta_keyword: String!,$meta_description: String!) {
+                        updateProduct(id:$id,name: $name, slug:$slug , description:$description,price:$price , sale_price:$sale_price,sku: $sku,quantity:$quantity,in_stock:$in_stock,is_taxable: $is_taxable,image:$image ,catgeory_id: $catgeory_id,status: $status,views:$views,met_title: $met_title,meta_keyword:$meta_keyword,meta_description:$meta_description){
                             id,
                             name,
-                            email,
-                            avtar,
-                            password,
-                            is_admin
+                            slug,
+                            description,
+                            price,
+                            sale_price,
+                            sku,
+                            quantity,
+                            in_stock,
+                            is_taxable,
+                            image,
+                            catgeory_id,
+                            status,
+                            views,
+                            meta_title,
+                            meta_keyword,
+                            meta_description
                         }
                     }`,
                     variables: {
@@ -470,7 +482,7 @@ class ProductForm extends React.Component {
 
                 // console.log(catpost);
 
-                UserService.add(catpost)
+                ProductService.add(catpost)
                     .then((response) => {
                         if (
                             response.status == 200 &&
@@ -478,7 +490,7 @@ class ProductForm extends React.Component {
                                 response.data.data.error == "")
                         ) {
                             this.setState({ isLoading: false });
-                            this.props.history.push("/admin/users");
+                            this.props.history.push("/admin/products");
                         }
                     })
                     .catch((error) => {
@@ -486,27 +498,49 @@ class ProductForm extends React.Component {
                     });
             } else {
                 this.setState({ isLoading: true });
-                const catpost = {
-                    query: `mutation createUser($name: String!, $email: String!, $avtar: String,$password: String!, $is_admin: Int) {
-                        createUser(name: $name,email: $email,avtar: $avtar,password: $password,is_admin: $is_admin){
+                const productpost = {
+                    query: `mutation createProduct($name: String!, $slug: String!, $description: String,$price: String!, $sale_price: String,$sku: String,$quantity: Int,$in_stock: Int,$is_taxable: Int,$image: String!,$catgeory_id: Int,$status: Int,$views: Int,$met_title: String!,$meta_keyword: String!,$meta_description: String!) {
+                        createProduct(name: $name, slug:$slug , description:$description,price:$price , sale_price:$sale_price,sku: $sku,quantity:$quantity,in_stock:$in_stock,is_taxable: $is_taxable,image:$image ,catgeory_id: $catgeory_id,status: $status,views:$views,met_title: $met_title,meta_keyword:$meta_keyword,meta_description:$meta_description ){
                             name,
-                            email,
-                            avtar,
-                            password,
-                            is_admin
+                            slug,
+                            description,
+                            price,
+                            sale_price,
+                            sku,
+                            quantity,
+                            in_stock,
+                            is_taxable,
+                            image,
+                            catgeory_id,
+                            status,
+                            views,
+                            meta_title,
+                            meta_keyword,
+                            meta_description
                         }
                     }`,
                     variables: {
                         name: postdata.name,
-                        email: postdata.email,
-                        password: postdata.password,
-                        avtar: postdata.avtarPreview,
-                        is_admin: parseInt(postdata.is_admin),
+                        slug: postdata.slug,
+                        description: postdata.description,
+                        price: postdata.price,
+                        sale_price: postdata.sale_price,
+                        sku: postdata.sku,
+                        quantity: postdata.quantity,
+                        in_stock: postdata.in_stock,
+                        is_taxable: postdata.is_taxable,
+                        image: postdata.image,
+                        catgeory_id: postdata.catgeory_id,
+                        status: postdata.status,
+                        views: postdata.views,
+                        meta_title: postdata.meta_title,
+                        meta_keyword: postdata.meta_keyword,
+                        meta_description: postdata.meta_description,
                         isLoading: false,
                     },
                 };
 
-                UserService.add(catpost)
+                ProductService.add(productpost)
                     .then((response) => {
                         if (
                             response.status == 200 &&
@@ -514,7 +548,7 @@ class ProductForm extends React.Component {
                                 response.data.data.error == "")
                         ) {
                             this.setState({ isLoading: false });
-                            this.props.history.push("/admin/users");
+                            this.props.history.push("/admin/products");
                         }
                     })
                     .catch((error) => {
@@ -542,41 +576,41 @@ class ProductForm extends React.Component {
 
         // console.log(Object.values(Settings.status));
         const { id } = this.props.match.params;
-        if (id) {
-            const uid = parseInt(id);
-            const catpost = {
-                query: `query getUser($id:Int!){
-                    user(id:$id){
-                        id,
-                        name,
-                        avtar,
-                        email,
-                        is_admin
-                      }
-                }
-            `,
-                variables: {
-                    id: uid,
-                },
-            };
-            this.setState({ isLoading: true });
-            UserService.get(catpost)
-                .then((response) => {
-                    console.log(response);
-                    let setdata = {
-                        email: response.data.data.user.email,
-                        name: response.data.data.user.name,
-                        avtar: response.data.data.user.avtar,
-                        avtarPreview: response.data.data.user.avtar,
-                        is_admin: response.data.data.user.is_admin,
-                        isLoading: false,
-                    };
-                    this.setState(setdata);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
+        // if (id) {
+        //     const uid = parseInt(id);
+        //     const catpost = {
+        //         query: `query getUser($id:Int!){
+        //             user(id:$id){
+        //                 id,
+        //                 name,
+        //                 avtar,
+        //                 email,
+        //                 is_admin
+        //               }
+        //         }
+        //     `,
+        //         variables: {
+        //             id: uid,
+        //         },
+        //     };
+        //     this.setState({ isLoading: true });
+        //     UserService.get(catpost)
+        //         .then((response) => {
+        //             console.log(response);
+        //             let setdata = {
+        //                 email: response.data.data.user.email,
+        //                 name: response.data.data.user.name,
+        //                 avtar: response.data.data.user.avtar,
+        //                 avtarPreview: response.data.data.user.avtar,
+        //                 is_admin: response.data.data.user.is_admin,
+        //                 isLoading: false,
+        //             };
+        //             this.setState(setdata);
+        //         })
+        //         .catch((error) => {
+        //             console.log(error);
+        //         });
+        // }
     }
 
     render() {

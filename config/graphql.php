@@ -83,6 +83,10 @@ return [
                 //category
                 'category' => \App\GraphQL\Queries\Category\CategoryQuery::class,
                 'categories' => \App\GraphQL\Queries\Category\CategoriesQuery::class,
+
+                //product
+                'product' => \App\GraphQL\Queries\Product\ProductQuery::class,
+                'products' => \App\GraphQL\Queries\Product\ProductsQuery::class,
             ],
             'mutation' => [
                 // ExampleMutation::class,
@@ -95,12 +99,18 @@ return [
                 'createCategory' => \App\GraphQL\Mutations\Category\CreateCategoryMutation::class,
                 'updateCategory' => \App\GraphQL\Mutations\Category\UpdateCategoryMutation::class,
                 'deleteCategory' => \App\GraphQL\Mutations\Category\DeleteCategoryMutation::class,
+
+                //product
+                'createProduct' => \App\GraphQL\Mutations\Product\CreateProductMutation::class,
+                'updateProduct' => \App\GraphQL\Mutations\Product\UpdateProductMutation::class,
+                'deleteProduct' => \App\GraphQL\Mutations\Product\DeleteProductMutation::class,
             ],
             // The types only available in this schema
             'types' => [
                 // ExampleType::class,
                 'User' => \App\GraphQL\Types\UserType::class,
                 'Category' => \App\GraphQL\Types\CategoryType::class,
+                'Product' => \App\GraphQL\Types\ProductType::class,
                 \Rebing\GraphQL\Support\UploadType::class,
             ],
 
