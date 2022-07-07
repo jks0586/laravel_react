@@ -2,7 +2,7 @@
 
 // app/graphql/queries/Prduct/ProductsQuery
 
-namespace App\GraphQL\Queries\User;
+namespace App\GraphQL\Queries\Product;
 
 use App\Models\Product;
 use GraphQL\Type\Definition\Type;

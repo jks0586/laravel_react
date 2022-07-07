@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
-class PrdouctType extends GraphQLType
+class ProductType extends GraphQLType
 {
     protected $attributes = [
         'name' => 'Product',
@@ -33,15 +33,19 @@ class PrdouctType extends GraphQLType
                 'description' => 'Slug of the Product'
             ],
             'description' => [
-                'type' => Type::nonNull(Type::string()),
+                'type' => Type::string(),
                 'description' => 'Description of the Product'
             ],
-            'price' => [
+            'image' => [
                 'type' => Type::nonNull(Type::string()),
+                'description' => 'image of the Product'
+            ],
+            'price' => [
+                'type' => Type::nonNull(Type::int()),
                 'description' => 'price of the Product'
             ],
             'sale_price' => [
-                'type' => Type::nonNull(Type::string()),
+                'type' => Type::int(),
                 'description' => 'Sale price of the Product'
             ],
             'sku' => [
@@ -53,27 +57,27 @@ class PrdouctType extends GraphQLType
                 'description' => 'Quantity of the Product'
             ],
             'in_stock' => [
-                'type' => Type::nonNull(Type::int()),
+                'type' => Type::int(),
                 'description' => 'In Stock of the Product'
             ],
             'is_taxable' => [
-                'type' => Type::nonNull(Type::int()),
+                'type' => Type::int(),
                 'description' => 'Is Taxable of the Product'
             ],
             'image' => [
-                'type' => Type::nonNull(Type::string()),
+                'type' => Type::string(),
                 'description' => 'Image of the Product'
             ],
             'category_id' => [
-                'type' => Type::nonNull(Type::int()),
+                'type' => Type::int(),
                 'description' => 'Category of the Product'
             ],
             'status' => [
-                'type' => Type::nonNull(Type::int()),
+                'type' => Type::int(),
                 'description' => 'Status of the Product'
             ],
             'views' => [
-                'type' => Type::nonNull(Type::int()),
+                'type' => Type::int(),
                 'description' => 'Views of the Product'
             ],
             'meta_title' => [

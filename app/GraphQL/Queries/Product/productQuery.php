@@ -2,7 +2,7 @@
 
 // app/graphql/queries/Prduct/ProductQuery
 
-namespace App\GraphQL\Queries\User;
+namespace App\GraphQL\Queries\Product;
 
 use App\Models\Product;
 use GraphQL\Type\Definition\Type;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class ProductQuery extends Query
 {
     protected $attributes = [
-        'name' => 'product',
+        'name' => 'Product',
     ];
 
     public function type(): Type

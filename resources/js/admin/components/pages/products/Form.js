@@ -443,7 +443,7 @@ class ProductForm extends React.Component {
             Object.keys(this.state).forEach((value, index) => {
                 postdata[value] = this.state[value];
             });
-            // console.log(postdata);
+            console.log(postdata);
             if (id) {
                 this.setState({ isLoading: true });
 
@@ -497,10 +497,11 @@ class ProductForm extends React.Component {
                         console.log(error);
                     });
             } else {
+                alert(postdata.category_id);
                 this.setState({ isLoading: true });
                 const productpost = {
-                    query: `mutation createProduct($name: String!, $slug: String!, $description: String,$price: String!, $sale_price: String,$sku: String,$quantity: Int,$in_stock: Int,$is_taxable: Int,$image: String!,$catgeory_id: Int,$status: Int,$views: Int,$met_title: String!,$meta_keyword: String!,$meta_description: String!) {
-                        createProduct(name: $name, slug:$slug , description:$description,price:$price , sale_price:$sale_price,sku: $sku,quantity:$quantity,in_stock:$in_stock,is_taxable: $is_taxable,image:$image ,catgeory_id: $catgeory_id,status: $status,views:$views,met_title: $met_title,meta_keyword:$meta_keyword,meta_description:$meta_description ){
+                    query: `mutation createProduct($name:String!, $slug:String!, $description:String!,$price:Int!, $sale_price:Int,$sku: String!,$quantity:Int!,$in_stock:Int,$is_taxable:Int,$image:String!,$category_id:Int!,$status:Int,$views:Int,$meta_title: String!,$meta_keyword: String!,$meta_description: String!) {
+                        createProduct(name: $name, slug:$slug , description:$description,price:$price , sale_price:$sale_price,sku: $sku,quantity:$quantity,in_stock:$in_stock,is_taxable: $is_taxable,image:$image,category_id: $category_id,status: $status,views:$views,meta_title: $meta_title,meta_keyword:$meta_keyword,meta_description:$meta_description ){
                             name,
                             slug,
                             description,
@@ -511,7 +512,7 @@ class ProductForm extends React.Component {
                             in_stock,
                             is_taxable,
                             image,
-                            catgeory_id,
+                            category_id,
                             status,
                             views,
                             meta_title,
@@ -523,20 +524,19 @@ class ProductForm extends React.Component {
                         name: postdata.name,
                         slug: postdata.slug,
                         description: postdata.description,
-                        price: postdata.price,
-                        sale_price: postdata.sale_price,
+                        price: parseInt(postdata.price),
+                        sale_price: parseInt(postdata.sale_price),
                         sku: postdata.sku,
-                        quantity: postdata.quantity,
-                        in_stock: postdata.in_stock,
-                        is_taxable: postdata.is_taxable,
+                        quantity: parseInt(postdata.quantity),
+                        in_stock: parseInt(postdata.in_stock),
+                        is_taxable:parseInt(postdata.is_taxable),
                         image: postdata.image,
-                        catgeory_id: postdata.catgeory_id,
-                        status: postdata.status,
-                        views: postdata.views,
+                        category_id: parseInt(postdata.category_id),
+                        status: parseInt(postdata.status),
+                        views: parseInt(postdata.views),
                         meta_title: postdata.meta_title,
                         meta_keyword: postdata.meta_keyword,
                         meta_description: postdata.meta_description,
-                        isLoading: false,
                     },
                 };
 
