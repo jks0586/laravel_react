@@ -41,11 +41,11 @@ class ProductType extends GraphQLType
                 'description' => 'image of the Product'
             ],
             'price' => [
-                'type' => Type::nonNull(Type::int()),
+                'type' => Type::nonNull(Type::float()),
                 'description' => 'price of the Product'
             ],
             'sale_price' => [
-                'type' => Type::int(),
+                'type' => Type::float(),
                 'description' => 'Sale price of the Product'
             ],
             'sku' => [
@@ -57,11 +57,11 @@ class ProductType extends GraphQLType
                 'description' => 'Quantity of the Product'
             ],
             'in_stock' => [
-                'type' => Type::int(),
+                'type' => Type::boolean(),
                 'description' => 'In Stock of the Product'
             ],
             'is_taxable' => [
-                'type' => Type::int(),
+                'type' => Type::boolean(),
                 'description' => 'Is Taxable of the Product'
             ],
             'image' => [
