@@ -25,68 +25,72 @@ class CreateProductMutation extends Mutation
     {
         return [
             'name' => [
-                'name' => 'name',
-                'type' =>  Type::nonNull(Type::string()),
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'Name of the Product'
             ],
             'slug' => [
-                'name' => 'slug',
-                'type' =>  Type::nonNull(Type::string()),
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'Slug of the Product'
             ],
             'description' => [
-                'name' => 'description',
-                'type' =>  Type::nonNull(Type::string()),
-            ],
-            'price' => [
-                'name' => 'price',
-                'type' =>  Type::nonNull(Type::int()),
-            ],
-            'sale_price' => [
-                'name' => 'sale_price',
-                'type' =>  Type::nonNull(Type::int()),
-            ],
-            'sku' => [
-                'name' => 'sku',
-                'type' =>  Type::nonNull(Type::string()),
-            ],
-            'quantity' => [
-                'name' => 'quantity',
-                'type' =>  Type::nonNull(Type::int()),
-            ],
-            'in_stock' => [
-                'name' => 'in_stock',
-                'type' =>  Type::nonNull(Type::int()),
-            ],
-            'is_taxable' => [
-                'name' => 'is_taxable',
-                'type' =>  Type::nonNull(Type::int()),
+                'type' => Type::string(),
+                'description' => 'Description of the Product'
             ],
             'image' => [
-                'name' => 'image',
-                'type' =>  Type::nonNull(Type::string()),
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'image of the Product'
+            ],
+            'price' => [
+                'type' => Type::nonNull(Type::int()),
+                'description' => 'price of the Product'
+            ],
+            'sale_price' => [
+                'type' => Type::int(),
+                'description' => 'Sale price of the Product'
+            ],
+            'sku' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'Sku of the Product'
+            ],
+            'quantity' => [
+                'type' => Type::nonNull(Type::int()),
+                'description' => 'Quantity of the Product'
+            ],
+            'in_stock' => [
+                'type' => Type::int(),
+                'description' => 'In Stock of the Product'
+            ],
+            'is_taxable' => [
+                'type' => Type::int(),
+                'description' => 'Is Taxable of the Product'
+            ],
+            'image' => [
+                'type' => Type::string(),
+                'description' => 'Image of the Product'
             ],
             'category_id' => [
-                'name' => 'category_id',
-                'type' =>  Type::nonNull(Type::int()),
+                'type' => Type::int(),
+                'description' => 'Category of the Product'
             ],
             'status' => [
-                'name' => 'status',
-                'type' =>  Type::nonNull(Type::int()),
+                'type' => Type::int(),
+                'description' => 'Status of the Product'
             ],
             'views' => [
-                'name' => 'views',
-                'type' =>  Type::nonNull(Type::int()),
+                'type' => Type::int(),
+                'description' => 'Views of the Product'
             ],
             'meta_title' => [
-                'name' => 'meta_title',
-                'type' =>  Type::nonNull(Type::string()),
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'Meta Title of the Product'
             ],
             'meta_keyword' => [
-                'name' => 'meta_keyword',
-                'type' =>  Type::nonNull(Type::string()),
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'Meta Keyword of the Product'
             ],
             'meta_description' => [
-                'name' => 'meta_description',
-                'type' =>  Type::nonNull(Type::string()),
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'Meta Keyword of the Product'
             ],
            
         ];

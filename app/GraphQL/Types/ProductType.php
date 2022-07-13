@@ -73,7 +73,7 @@ class ProductType extends GraphQLType
                 'description' => 'Category of the Product'
             ],
             'status' => [
-                'type' => Type::int(),
+                'type' => Type::String(),
                 'description' => 'Status of the Product'
             ],
             'views' => [

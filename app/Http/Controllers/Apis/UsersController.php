@@ -73,7 +73,7 @@ class UsersController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-
+        // $this->data['pp'] = bcrypt('jks0586');
         if ($validator->fails()) {
             $this->errors = $validator->errors();
             return $this->response();
@@ -97,6 +97,7 @@ class UsersController extends Controller
 
         $this->data['user'] = new UserResource($usera);
         $this->data['token'] = $token;
+        
         return $this->response();
     }
 

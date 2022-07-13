@@ -16,7 +16,7 @@ const AuthenticatedRoute=({component:Component,...rest})=>{
         ):
         (
         <Redirect
-        to={{ pathname:"/login",
+        to={{ pathname:"/admin/login",
         state:{from:props.location}}} />
         )} />
     )

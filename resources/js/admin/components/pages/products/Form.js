@@ -1,40 +1,44 @@
-import React from 'react'
-import Form from 'react-bootstrap/Form'
-import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
-import Alert from 'react-bootstrap/Alert'
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import UserService from '../../../apis/Users'
-import CategoryService from './../../../apis/Category'
-import ProductService from '../../../apis/Product'
-import { request, gql } from 'graphql-request'
-import { withRouter } from 'react-router-dom'
-import validator from 'validator'
-import Loading from 'react-fullscreen-loading'
-import Settings from '../../partials/settings'
+import React from "react";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import UserService from "../../../apis/Users";
+
+import CategoryService from "./../../../apis/Category";
+import ProductService from "../../../apis/Product";
+import { request, gql } from "graphql-request";
+import { withRouter } from "react-router-dom";
+import validator from "validator";
+import Loading from "react-fullscreen-loading";
+import Settings from "../../partials/settings";
+
 
 class ProductForm extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
-            name: '',
-            slug: '',
-            description: '',
-            price: '',
-            sale_price: '',
-            sku: '',
-            quantity: '',
-            in_stock: false,
-            is_taxable: false,
-            image: '',
-            imagepreview: '',
-            category_id: '',
-            status: '',
-            views: '',
-            meta_title: '',
-            meta_keyword: '',
-            meta_description: '',
+
+            name: "",
+            slug: "",
+            description: "",
+            price: 0,
+            sale_price: 0,
+            sku: "",
+            quantity: 1,
+            in_stock: 0,
+            is_taxable: 0,
+            image: "",
+            imagepreview: "",
+            category_id: "",
+            status: 0,
+            views: 0,
+            meta_title: "",
+            meta_keyword: "",
+            meta_description: "",
+
             categories: [],
             formErrors: {},
             isLoading: false
@@ -185,8 +189,10 @@ class ProductForm extends React.Component {
             imgset.setAttribute('width', 50)
             imgset.setAttribute('height', 50)
             //
-            this.setState({ imagePreview: reader.result })
-        }.bind(this)
+            this.setState({ imagePreview: reader.result });
+            this.setState({ image: reader.result });
+        }.bind(this);
+
     }
 
     productValidate (e) {
@@ -449,8 +455,8 @@ class ProductForm extends React.Component {
                 // this.setState({ isLoading: true })
 
                 const catpost = {
-                    query: `mutation updateProduct($name: String!, $slug: String!, $description: String,$price: Float!, $sale_price: Float,$sku: String,$quantity: Int,$in_stock: Int,$is_taxable: Int,$image: String!,$catgeory_id: Int,$status: Int,$views: Int,$met_title: String!,$meta_keyword: String!,$meta_description: String!) {
-                        updateProduct(id:$id,name: $name, slug:$slug , description:$description,price:$price , sale_price:$sale_price,sku: $sku,quantity:$quantity,in_stock:$in_stock,is_taxable: $is_taxable,image:$image ,catgeory_id: $catgeory_id,status: $status,views:$views,met_title: $met_title,meta_keyword:$meta_keyword,meta_description:$meta_description){
+                    query: `mutation updateProduct($is:Int!,$name:String!, $slug:String!, $description:String!,$price:Int!, $sale_price:Int,$sku: String!,$quantity:Int!,$in_stock:Int,$is_taxable:Int,$image:String!,$category_id:Int!,$status:Int,$views:Int,$meta_title: String!,$meta_keyword: String!,$meta_description: String) {
+                        updateProduct(id:$id,name: $name, slug:$slug , description:$description,price:$price , sale_price:$sale_price,sku: $sku,quantity:$quantity,in_stock:$in_stock,is_taxable: $is_taxable,image:$image,category_id: $category_id,status: $status,views:$views,meta_title: $meta_title,meta_keyword:$meta_keyword,meta_description:$meta_description){
                             id,
                             name,
                             slug,
@@ -462,24 +468,36 @@ class ProductForm extends React.Component {
                             in_stock,
                             is_taxable,
                             image,
-                            catgeory_id,
+                            category_id,
                             status,
                             views,
                             meta_title,
                             meta_keyword,
-                            meta_description
+                            meta_description,
+                            views
                         }
                     }`,
                     variables: {
                         id: parseInt(id),
                         name: postdata.name,
-                        email: postdata.email,
-                        avtar: postdata.avtarPreview,
-                        password: postdata.password,
-                        is_admin: parseInt(postdata.is_admin),
-                        isLoading: false
-                    }
-                }
+
+                        slug: postdata.slug,
+                        description: postdata.description,
+                        price: parseInt(postdata.price),
+                        sale_price: parseInt(postdata.sale_price),
+                        sku: postdata.sku,
+                        quantity: parseInt(postdata.quantity),
+                        in_stock: parseInt(postdata.in_stock),
+                        is_taxable:parseInt(postdata.is_taxable),
+                        image: postdata.image,
+                        category_id: parseInt(postdata.category_id),
+                        status: parseInt(postdata.status),
+                        views: parseInt(postdata.views),
+                        meta_title: postdata.meta_title,
+                        meta_keyword: postdata.meta_keyword,
+                        meta_description: postdata.meta_description
+                    },
+                };
 
                 // console.log(catpost);
 
@@ -498,8 +516,10 @@ class ProductForm extends React.Component {
                         console.log(error)
                     })
             } else {
-                alert(postdata.category_id)
-                // this.setState({ isLoading: true })
+
+                alert(postdata.category_id);
+                this.setState({ isLoading: false });
+
                 const productpost = {
                     query: `mutation createProduct($name:String!, $slug:String!, $description:String!,$price:Float!, $sale_price:Float,$sku: String!,$quantity:Int!,$in_stock:Bool,$is_taxable:Bool,$image:String!,$category_id:Int!,$status:Int,$views:Int,$meta_title: String!,$meta_keyword: String!,$meta_description: String!) {
                         createProduct(name: $name, slug:$slug , description:$description,price:$price , sale_price:$sale_price,sku: $sku,quantity:$quantity,in_stock:$in_stock,is_taxable: $is_taxable,image:$image,category_id: $category_id,status: $status,views:$views,meta_title: $meta_title,meta_keyword:$meta_keyword,meta_description:$meta_description ){
@@ -518,7 +538,8 @@ class ProductForm extends React.Component {
                             views,
                             meta_title,
                             meta_keyword,
-                            meta_description
+                            meta_description,
+                            views
                         }
                     }`,
                     variables: {
@@ -538,9 +559,8 @@ class ProductForm extends React.Component {
                         meta_title: postdata.meta_title,
                         meta_keyword: postdata.meta_keyword,
                         meta_description: postdata.meta_description
-                    }
-                }
-
+                    },
+                };
                 ProductService.add(productpost)
                     .then(response => {
                         if (
@@ -548,8 +568,10 @@ class ProductForm extends React.Component {
                             (response.data.data.error == undefined ||
                                 response.data.data.error == '')
                         ) {
-                            this.setState({ isLoading: false })
-                            this.props.history.push('/admin/products')
+                            this.setState({ isLoading: false });
+                            console.log(response.data.data);
+                            // this.props.history.push("/admin/products");
+
                         }
                     })
                     .catch(error => {
@@ -576,42 +598,68 @@ class ProductForm extends React.Component {
             })
 
         // console.log(Object.values(Settings.status));
-        const { id } = this.props.match.params
-        // if (id) {
-        //     const uid = parseInt(id);
-        //     const catpost = {
-        //         query: `query getUser($id:Int!){
-        //             user(id:$id){
-        //                 id,
-        //                 name,
-        //                 avtar,
-        //                 email,
-        //                 is_admin
-        //               }
-        //         }
-        //     `,
-        //         variables: {
-        //             id: uid,
-        //         },
-        //     };
-        //     this.setState({ isLoading: true });
-        //     UserService.get(catpost)
-        //         .then((response) => {
-        //             console.log(response);
-        //             let setdata = {
-        //                 email: response.data.data.user.email,
-        //                 name: response.data.data.user.name,
-        //                 avtar: response.data.data.user.avtar,
-        //                 avtarPreview: response.data.data.user.avtar,
-        //                 is_admin: response.data.data.user.is_admin,
-        //                 isLoading: false,
-        //             };
-        //             this.setState(setdata);
-        //         })
-        //         .catch((error) => {
-        //             console.log(error);
-        //         });
-        // }
+
+        const { id } = this.props.match.params;
+        if (id) {
+            const uid = parseInt(id);
+            const catpost = {
+                query: `query getProduct($id:Int!){
+                    product(id:$id){
+                        id
+                        name
+                        slug
+                        description
+                        price
+                        sale_price
+                        sku
+                        quantity
+                        in_stock
+                        is_taxable
+                        image
+                        category_id
+                        status
+                        views
+                        meta_title
+                        meta_keyword
+                        meta_description
+                        views
+                      }
+                }
+            `,
+                variables: {
+                    id: uid,
+                },
+            };
+            this.setState({ isLoading: true });
+            ProductService.get(catpost)
+                .then((response) => {
+                    // console.log(response);
+                    let setdata = {
+                        name: response.data.data.product.name,
+                        slug: response.data.data.product.slug,
+                        description: response.data.data.product.description,
+                        price: response.data.data.product.price,
+                        sale_price: response.data.data.product.sale_price,
+                        quantity: response.data.data.product.quantity,
+                        in_stock: response.data.data.product.in_stock,
+                        is_taxable: response.data.data.product.is_taxable,
+                        image: response.data.data.product.image,
+                        imagepreview: response.data.data.product.imagepreview,
+                        category_id: response.data.data.product.category_id,
+                        views: response.data.data.product.views,
+                        meta_title: response.data.data.product.meta_title,
+                        meta_keyword: response.data.data.product.meta_keyword,
+                        meta_description: response.data.data.product.meta_description,
+                        views: response.data.data.product.views,
+                        isLoading: false,
+                    };
+                    this.setState(setdata);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+
     }
 
     render () {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link, BrowserRouter as Router } from "react-router-dom";
-import { withRouter } from "react-router";
+import { Link, Router } from "react-router-dom";
+import { Redirect, withRouter } from "react-router";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -19,7 +19,11 @@ const Sidebar = (props) => {
     const [categoryopen, setCategoryopen] = useState(false);
     const [useropen, setUseropen] = useState(false);
     const [productopen, setProductopen] = useState(false);
-
+    const adminLogout=()=>{
+        localStorage.clear();
+        props.history.push("/admin/login");
+        // <Redirect to={{ pathname:"/admin/login", state:{from:props.location}}} />
+    }
     return (
         <Navbar expand={true}>
             <Container fluid>
@@ -80,6 +84,11 @@ const Sidebar = (props) => {
                                 <Nav.Link href="/admin/products">Products List</Nav.Link>
                             </div>
                         </Collapse>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link href="#" onClick={adminLogout}>
+                        <FontAwesomeIcon icon={faList} /> Logout
+                        </Nav.Link>
                     </Nav.Item>
                 </Nav>
             </Container>

@@ -1,6 +1,6 @@
 import React from "react";
 import {
-    BrowserRouter as Router,
+    Router,
     Switch,
     Route,
     Link
@@ -16,7 +16,7 @@ import EditCategories from "./components/pages/categories/Edit";
 import ListUsers from "./components/pages/users/Index";
 import AddUser from "./components/pages/users/Add";
 import EditUser from "./components/pages/users/Edit";
-
+// import { createBrowserHistory } from "history";
 // products component
 
 import Products from "./components/pages/products/Index";
@@ -25,6 +25,11 @@ import EditProduct from "./components/pages/products/Edit";
 
 class Routes extends React.Component
 {
+    constructor (props) {
+        super(props)
+        // this.history = createBrowserHistory();
+    }
+    
     render()
     {
         return(
